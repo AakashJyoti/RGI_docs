@@ -13,7 +13,8 @@ import base64
 from dotenv import load_dotenv
 
 load_dotenv()
-
+SPEECH_KEY="ea81bafd0787487c808e90e4dd006252"
+SPEECH_REGION="centralindia"
 # Azure Cognitive Services credentials
 subscription_key = os.getenv("SPEECH_KEY")  # Set your Azure Speech key in environment variables
 region = os.getenv("SPEECH_REGION")  # Set your Azure Speech region in environment variables
