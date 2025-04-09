@@ -152,7 +152,67 @@ def convert_mu_law_without_reencoding(combined_audio, output_path):
     print("✅ Output saved with original mu-law codec.")
 
 
+import struct
+from pathlib import Path
+
+
+def create_wav_from_chunks(audio_chunks, output_path, sample_rate, num_channels):
+    """
+    Create a WAV file directly from pre-chunked 20ms mu-law audio data
+
+    :param audio_chunks: List of 20ms audio byte chunks
+    :param output_path: Output file path
+    :param sample_rate: Original sample rate (e.g., 8000)
+    :param num_channels: Number of channels (e.g., 1 for mono)
+    """
+    # Combine chunks into single continuous audio stream
+    raw_audio = b"".join(audio_chunks)
+
+    # ========================================================================
+    # Create WAV headers programmatically (mu-law specific)
+    # ========================================================================
+
+    # RIFF header
+    riff_header = b'RIFF'
+    riff_size = 4 + 24 + 8 + len(raw_audio)  # 4 = "WAVE", 24 = fmt chunk, 8 = data header
+    riff_chunk = riff_header + struct.pack('<I', riff_size) + b'WAVE'
+
+    # fmt chunk (mu-law format)
+    fmt_header = b'fmt '
+    fmt_size = 18  # Standard size for PCM/mu-law
+    audio_format = 7  # mu-law codec ID
+    bits_per_sample = 8
+    bytes_per_second = sample_rate * num_channels * bits_per_sample // 8
+    block_align = num_channels * bits_per_sample // 8
+
+    fmt_data = struct.pack(
+        '<HHIIHH',
+        audio_format,
+        num_channels,
+        sample_rate,
+        bytes_per_second,
+        block_align,
+        bits_per_sample
+    )
+    fmt_chunk = fmt_header + struct.pack('<I', fmt_size) + fmt_data
+
+    # data chunk
+    data_header = b'data'
+    data_size = len(raw_audio)
+    data_chunk = data_header + struct.pack('<I', data_size) + raw_audio
+
+    # Combine all chunks
+    wav_file = riff_chunk + fmt_chunk + data_chunk
+
+    # Write to file
+    output_path = Path(output_path)
+    output_path.write_bytes(wav_file)
+    print(f"✅ Saved {len(audio_chunks)} chunks ({len(raw_audio)} bytes) to {output_path}")
 
 # Example usage:
-# combined_audio = b"".join(self.audio_chunks)  # Your combined audio bytes
-# convert_mu_law_without_reencoding(combined_audio, "chunks2.wav")
+# create_wav_from_chunks(
+#     audio_chunks=self.audio_chunks,
+#     output_path="output.wav",
+#     sample_rate=8000,  # Must match your actual sample rate
+#     num_channels=1     # Must match your actual channel count
+# )
