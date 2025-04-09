@@ -95,6 +95,14 @@ SPEECH_REGION="centralindia"
 # recognizer.stop_continuous_recognition()
 
 
+
+
+
+
+
+
+
+
 import azure.cognitiveservices.speech as speechsdk
 import wave
 import time
@@ -116,7 +124,7 @@ push_stream = speechsdk.audio.PushAudioInputStream(audio_format)
 audio_config = speechsdk.audio.AudioConfig(stream=push_stream)
 
 # Initialize the speech recognizer
-recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config, language="en-IN")
+recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config, language="en-AU")
 
 # Event handler for recognized speech
 # def on_recognized(evt):
@@ -156,8 +164,8 @@ recognizer.canceled.connect(on_canceled)
 recognizer.start_continuous_recognition()
 
 # Audio file path
-# filename = r"C:\Users\abhik\Documents\RGI-Sockets\motor_websocket\audio\User\output_distortion3.wav"
-filename="C:\\Users\\abhik\\Documents\\RGI-Sockets\\motor_websocket\\websocket_final\\WebConnector_Only_cx.wav"
+filename = r"D:\reliance\motor_websocket\audio\Bot\bot_response.wav"
+
 # Open the audio file
 with wave.open(filename, "rb") as wf:
     raw_data = wf.readframes(wf.getnframes())
@@ -185,3 +193,196 @@ recognizer.stop_continuous_recognition()
 # Close the push stream
 push_stream.close()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import azure.cognitiveservices.speech as speechsdk
+# import sounddevice as sd
+# import numpy as np
+#
+# # Replace these with your actual Azure Speech subscription key and region.
+# SPEECH_KEY = SPEECH_KEY
+# SPEECH_REGION = SPEECH_REGION
+#
+# # Configure the Azure Speech Service
+# speech_config = speechsdk.SpeechConfig(subscription=SPEECH_KEY, region=SPEECH_REGION)
+# speech_config.set_property(
+#     speechsdk.PropertyId.SpeechServiceConnection_InitialSilenceTimeoutMs, "5000"
+# )  # 5 seconds
+# speech_config.set_property(
+#     speechsdk.PropertyId.SpeechServiceConnection_EndSilenceTimeoutMs, "2000"
+# )  # 2 seconds
+#
+# # Define the audio format for the PushAudioInputStream: 16 kHz, 16-bit, mono.
+# audio_format = speechsdk.audio.AudioStreamFormat(
+#     samples_per_second=16000, bits_per_sample=16, channels=1
+# )
+#
+# # Create a push stream to feed audio data into the recognizer.
+# push_stream = speechsdk.audio.PushAudioInputStream(audio_format)
+# audio_config = speechsdk.audio.AudioConfig(stream=push_stream)
+#
+# # Create the Speech Recognizer.
+# speech_recognizer = speechsdk.SpeechRecognizer(
+#     speech_config=speech_config, audio_config=audio_config, language="en-IN"
+# )
+#
+# # Event handler for recognized speech.
+# def on_recognized(evt):
+#     if evt.result.reason == speechsdk.ResultReason.RecognizedSpeech:
+#         print("Recognized:", evt.result.text)
+#     elif evt.result.reason == speechsdk.ResultReason.NoMatch:
+#         print("NoMatch: Speech could not be recognized.")
+#
+# # Event handler for canceled recognition.
+# def on_canceled(evt):
+#     print("Recognition canceled:", evt.result.cancellation_details.reason)
+#     if evt.result.cancellation_details.reason == speechsdk.CancellationReason.Error:
+#         print("Error details:", evt.result.cancellation_details.error_details)
+#
+# # Connect event handlers.
+# speech_recognizer.recognized.connect(on_recognized)
+# speech_recognizer.canceled.connect(on_canceled)
+#
+# # Microphone callback function: this function is called by sounddevice for each audio block.
+# def audio_callback(indata, frames, time_info, status):
+#     if status:
+#         print("Stream status:", status)
+#     # Convert the numpy array to bytes (16-bit PCM) and push into the stream.
+#     push_stream.write(indata.tobytes())
+#
+# # Microphone parameters.
+# sample_rate = 16000  # Hz
+# channels = 1         # Mono audio
+#
+# print("Starting microphone stream and speech recognition. Press Ctrl+C to stop.")
+#
+# # Start the Azure recognizer.
+# speech_recognizer.start_continuous_recognition()
+#
+# # Open an input stream from the default microphone using sounddevice.
+# with sd.InputStream(samplerate=sample_rate, channels=channels, dtype='int16', callback=audio_callback):
+#     try:
+#         # Keep the script running to capture audio.
+#         while True:
+#             sd.sleep(1000)
+#     except KeyboardInterrupt:
+#         print("Stopping...")
+#
+# # Stop the recognizer and close the push stream.
+# speech_recognizer.stop_continuous_recognition()
+# push_stream.close()
+# print("Recognition stopped.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import azure.cognitiveservices.speech as speechsdk
+# import sounddevice as sd
+# import numpy as np
+#
+# # Replace with your actual Azure Speech subscription key and region.
+# SPEECH_KEY = SPEECH_KEY
+# SPEECH_REGION = SPEECH_REGION
+#
+# # Configure the Azure Speech Service.
+# speech_config = speechsdk.SpeechConfig(subscription=SPEECH_KEY, region=SPEECH_REGION)
+# speech_config.set_property(speechsdk.PropertyId.SpeechServiceConnection_InitialSilenceTimeoutMs, "5000")  # 5 seconds
+# speech_config.set_property(speechsdk.PropertyId.SpeechServiceConnection_EndSilenceTimeoutMs, "2000")      # 2 seconds
+#
+# # Define the audio format for the PushAudioInputStream: 16 kHz, 16-bit, mono.
+# audio_format = speechsdk.audio.AudioStreamFormat(
+#     samples_per_second=16000, bits_per_sample=16, channels=1
+# )
+#
+# # Create a push stream to feed audio data into the recognizer.
+# push_stream = speechsdk.audio.PushAudioInputStream(audio_format)
+# audio_config = speechsdk.audio.AudioConfig(stream=push_stream)
+#
+# # Create the Speech Recognizer.
+# speech_recognizer = speechsdk.SpeechRecognizer(
+#     speech_config=speech_config, audio_config=audio_config, language="en-IN"
+# )
+#
+# # Event handler for recognized speech.
+# def on_recognized(evt):
+#     if evt.result.reason == speechsdk.ResultReason.RecognizedSpeech:
+#         text = evt.result.text.strip()
+#         if text:
+#             print("Recognized:", text)
+#         else:
+#             # RecognizedSpeech with empty text might indicate silence.
+#             print("Silence detected (empty recognition result).")
+#     elif evt.result.reason == speechsdk.ResultReason.NoMatch:
+#         # NoMatch indicates that the service did not recognize any speech.
+#         print("NoMatch event: Silence or unrecognized audio detected.")
+#
+# # Event handler for canceled recognition.
+# def on_canceled(evt):
+#     print("Recognition canceled:", evt.result.cancellation_details.reason)
+#     if evt.result.cancellation_details.reason == speechsdk.CancellationReason.Error:
+#         print("Error details:", evt.result.cancellation_details.error_details)
+#
+# # Event handler for session started.
+# def on_session_started(evt):
+#     print("Session started.")
+#
+# # Event handler for session stopped.
+# def on_session_stopped(evt):
+#     print("Session stopped.")
+#
+# # Connect event handlers.
+# speech_recognizer.recognized.connect(on_recognized)
+# speech_recognizer.canceled.connect(on_canceled)
+# speech_recognizer.session_started.connect(on_session_started)
+# speech_recognizer.session_stopped.connect(on_session_stopped)
+#
+# # Microphone callback function called for each audio block.
+# def audio_callback(indata, frames, time_info, status):
+#     if status:
+#         print("Stream status:", status)
+#     # Convert the numpy array (16-bit PCM) to bytes and push into the stream.
+#     push_stream.write(indata.tobytes())
+#
+# # Microphone parameters.
+# sample_rate = 16000  # Hz
+# channels = 1         # Mono audio
+#
+# print("Starting microphone stream and speech recognition. Press Ctrl+C to stop.")
+#
+# # Start the Azure recognizer.
+# speech_recognizer.start_continuous_recognition()
+#
+# # Open an input stream from the default microphone using sounddevice.
+# with sd.InputStream(samplerate=sample_rate, channels=channels, dtype='int16', callback=audio_callback):
+#     try:
+#         # Keep the script running to capture audio.
+#         while True:
+#             sd.sleep(1000)
+#     except KeyboardInterrupt:
+#         print("Stopping...")
+#
+# # Stop the recognizer and close the push stream.
+# speech_recognizer.stop_continuous_recognition()
+# push_stream.close()
+# print("Recognition stopped.")
