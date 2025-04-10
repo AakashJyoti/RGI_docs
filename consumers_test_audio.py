@@ -9,38 +9,11 @@ import soundfile as sf
 # from pydub import AudioSegment
 from .motor_claim_flow import claim_intimation_flow
 
-import execjs
 import struct
 import base64
 import io
-import audioop
 from scipy.io import wavfile
 import numpy as np
-
-ctx = execjs.compile(
-    """
-function gg(audio_str, OpPath) {
-  const fs = require("fs");
- 
-  const newData = Buffer(audio_str)
-   
-  // Replace the original audioData in the buffer
-  const newBuffer = Buffer.concat([
-    buffer.slice(0, start), // header + fmt chunk
-    newData, // new audio data
-    buffer.slice(end), // anything after 'data' chunk (usually nothing)
-  ]);
- 
-  // Update the chunk size fields
-  newBuffer.writeUInt32LE(newData.length, headerStart + 4);
- 
-  // overall RIFF chunk size (file length - 8)
-  newBuffer.writeUInt32LE(newBuffer.length - 8, 4);
- 
-  fs.writeFileSync(OpPath, newBuffer);
-}
-"""
-)
 
 
 def create_wav_header(audio_data_length):
@@ -72,6 +45,28 @@ def create_wav_header(audio_data_length):
     struct.pack_into("<I", header, 40, audio_data_length)  # Subchunk2Size
 
     return header
+
+
+def mu_law_to_pcm(mu_law_data):
+    """Convert μ-law encoded bytes to 16-bit PCM using NumPy"""
+    mu = np.frombuffer(mu_law_data, dtype=np.uint8)
+    # μ-law expansion formula
+    mu = mu.astype(np.int16)
+    sign = 1 - ((mu & 0x80) >> 7) * 2
+    magnitude = mu & 0x7F
+    exponent = (magnitude >> 4) & 0x07
+    mantissa = magnitude & 0x0F
+    pcm = sign * ((0x01 << exponent) * (mantissa << 1) + (1 << exponent) + -0x84)
+    return pcm.astype(np.int16)
+
+
+def resample_audio(data, orig_rate, target_rate):
+    """Simple resampling using linear interpolation"""
+    ratio = target_rate / orig_rate
+    n_samples = int(len(data) * ratio)
+    x_old = np.linspace(0, 1, len(data))
+    x_new = np.linspace(0, 1, n_samples)
+    return np.interp(x_new, x_old, data).astype(np.int16)
 
 
 class AudioDataConsumer(AsyncWebsocketConsumer):
@@ -214,36 +209,43 @@ class AudioDataConsumer(AsyncWebsocketConsumer):
 
             # Convert mu-law to PCM if needed (8-bit data assumed to be mu-law)
             if audio.dtype == np.int8:
-                # Convert to 16-bit PCM (2 bytes per sample)
-                pcm_data = audioop.ulaw2lin(audio.tobytes(), 2)
-                audio = np.frombuffer(pcm_data, dtype=np.int16)
+            # μ-law expansion formula
+                mu = audio.astype(np.int16)
+                sign = 1 - ((mu & 0x80) >> 7) * 2
+                magnitude = (mu & 0x7f)
+                exponent = (magnitude >> 4) & 0x07
+                mantissa = magnitude & 0x0f
+                audio = sign * (
+                    (0x01 << exponent) * (mantissa << 1) + 
+                    (1 << exponent) + 
+                    -0x84
+                )
+                audio = audio.astype(np.int16)
 
             # Resample if needed (simple example - for better quality use librosa)
             if sample_rate != target_sample_rate:
-                ratio = target_sample_rate / sample_rate
-                audio = audioop.ratecv(
-                    audio.tobytes(),
-                    2,  # Sample width (2 bytes for 16-bit PCM)
-                    1,  # Number of channels
-                    sample_rate,
-                    target_sample_rate,
-                    None,
-                )[0]
-                audio = np.frombuffer(audio, dtype=np.int16)
+                # Calculate new length
+                new_length = int(len(audio) * target_sample_rate / sample_rate)
+                
+                # Create interpolation indices
+                x_old = np.linspace(0, len(audio)-1, len(audio))
+                x_new = np.linspace(0, len(audio)-1, new_length)
+                
+                # Linear interpolation
+                audio = np.interp(x_new, x_old, audio).astype(np.int16)
 
             # Write final output to memory first
             with io.BytesIO() as output_buffer:
                 wavfile.write(output_buffer, target_sample_rate, audio)
 
                 # Write to final output file
-                with open("D:/reliance/motor_websocket/audio/Bot/call_sid.wav", "wb") as f:
+                with open(
+                    "D:/reliance/motor_websocket/audio/Bot/call_sid.wav", "wb"
+                ) as f:
                     f.write(output_buffer.getvalue())
 
         # print(combined_audio)
         self.combined_audio_chunks = combined_audio
-        # ctx.call(
-        #     "gg", combined_audio, "D:/reliance/motor_websocket/audio/Bot/call_sid.wav"
-        # )
 
         # Write WAV file (optional)
         sample_rate, sampwidth, n_channels = self.extract_wav_params()
