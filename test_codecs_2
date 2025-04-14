@@ -1,0 +1,54 @@
+import numpy as np
+from scipy.signal import resample
+import wave
+import io
+
+# Generate μ-law to linear PCM lookup table (256 values)
+def generate_ulaw_table():
+    exp_lut = [0, 132, 396, 924, 1980, 4092, 8316, 16764]
+    table = np.zeros(256, dtype=np.int16)
+    for i in range(256):
+        u_val = ~i & 0xFF
+        sign = u_val & 0x80
+        exponent = (u_val >> 4) & 0x07
+        mantissa = u_val & 0x0F
+        magnitude = exp_lut[exponent] + (mantissa << (exponent + 3))
+        pcm = magnitude - 132
+        if sign != 0:
+            pcm = -pcm
+        table[i] = pcm
+    return table
+
+ULAW_TABLE = generate_ulaw_table()
+
+def ulaw_to_pcm16(ulaw_bytes):
+    ulaw = np.frombuffer(ulaw_bytes, dtype=np.uint8)
+    pcm16 = ULAW_TABLE[ulaw]
+    return pcm16.astype(np.int16)
+
+def mulaw_chunks_to_pcm_wav(chunks, output_path=None):
+    # Combine 20ms μ-law chunks (each ~160 bytes at 8kHz)
+    ulaw_data = b''.join(chunks)
+
+    # μ-law to 16-bit PCM (8kHz)
+    pcm_8k = ulaw_to_pcm16(ulaw_data)
+
+    # Resample to 16kHz
+    pcm_16k = resample(pcm_8k, int(len(pcm_8k) * 2)).astype(np.int16)
+
+    if output_path:
+        # Save to WAV file
+        with wave.open(output_path, "wb") as wav_out:
+            wav_out.setnchannels(1)
+            wav_out.setsampwidth(2)
+            wav_out.setframerate(16000)
+            wav_out.writeframes(pcm_16k.tobytes())
+    else:
+        # Return WAV bytes
+        wav_io = io.BytesIO()
+        with wave.open(wav_io, "wb") as wav_out:
+            wav_out.setnchannels(1)
+            wav_out.setsampwidth(2)
+            wav_out.setframerate(16000)
+            wav_out.writeframes(pcm_16k.tobytes())
+        return wav_io.getvalue()
