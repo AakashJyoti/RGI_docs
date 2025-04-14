@@ -209,16 +209,14 @@ class AudioDataConsumer(AsyncWebsocketConsumer):
 
             # Convert mu-law to PCM if needed (8-bit data assumed to be mu-law)
             if audio.dtype == np.int8:
-            # μ-law expansion formula
+                # μ-law expansion formula
                 mu = audio.astype(np.int16)
                 sign = 1 - ((mu & 0x80) >> 7) * 2
-                magnitude = (mu & 0x7f)
+                magnitude = mu & 0x7F
                 exponent = (magnitude >> 4) & 0x07
-                mantissa = magnitude & 0x0f
+                mantissa = magnitude & 0x0F
                 audio = sign * (
-                    (0x01 << exponent) * (mantissa << 1) + 
-                    (1 << exponent) + 
-                    -0x84
+                    (0x01 << exponent) * (mantissa << 1) + (1 << exponent) + -0x84
                 )
                 audio = audio.astype(np.int16)
 
@@ -226,11 +224,11 @@ class AudioDataConsumer(AsyncWebsocketConsumer):
             if sample_rate != target_sample_rate:
                 # Calculate new length
                 new_length = int(len(audio) * target_sample_rate / sample_rate)
-                
+
                 # Create interpolation indices
-                x_old = np.linspace(0, len(audio)-1, len(audio))
-                x_new = np.linspace(0, len(audio)-1, new_length)
-                
+                x_old = np.linspace(0, len(audio) - 1, len(audio))
+                x_new = np.linspace(0, len(audio) - 1, new_length)
+
                 # Linear interpolation
                 audio = np.interp(x_new, x_old, audio).astype(np.int16)
 
