@@ -1,0 +1,19 @@
+def update_transcript(session_id: str, speaker: str, message: str) -> None:
+    """
+    Appends a timestamped line to the `transcript` field of UserDetails.
+    Creates the record if it doesn't already exist.
+    """
+    # 1. Format the new line
+    ts   = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+    line = f"{ts} - {speaker}: {message}\n"
+
+    # 2. Fetch or create the UserDetails row
+    obj, created = UserDetails.objects.get_or_create(
+        session_id=session_id,
+        defaults={'transcript': line}
+    )  # get_or_create handles atomic creation if missing :contentReference[oaicite:1]{index=1}
+
+    if not created:
+        # 3. Append and save just the transcript & timestamp
+        obj.transcript   = (obj.transcript or '') + line
+        obj.save(update_fields=['transcript', 'last_updated'])
