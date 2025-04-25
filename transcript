@@ -17,3 +17,21 @@ def update_transcript(session_id: str, speaker: str, message: str) -> None:
         # 3. Append and save just the transcript & timestamp
         obj.transcript   = (obj.transcript or '') + line
         obj.save(update_fields=['transcript', 'last_updated'])
+
+
+
+# code to check about yes or no logic
+import re
+
+YES_TOKENS = {"yes","yeah","yep","sure"}
+NO_TOKENS  = {"no","nope","nah"}
+
+def parse_yes_no(text):
+    tokens = re.findall(r"\b\w+\b", text.lower())
+    print(tokens)
+    for t in tokens:
+        if t in YES_TOKENS:
+            return True
+        if t in NO_TOKENS:
+            return False
+    return None  # unable to classify
