@@ -35,3 +35,60 @@ def parse_yes_no(text):
         if t in NO_TOKENS:
             return False
     return None  # unable to classify
+
+
+
+
+
+
+def ask_mobile_or_policy_number(session:ClaimSession):
+    try:
+        while session.auth_attempts < 2:
+
+            message = "क्या आप कृपया अपना 16 या 18 अंकों का पॉलिसी नंबर या 10 अंकों का रजिस्टर्ड मोबाइल नंबर साझा कर सकते हैं?"
+            text_to_speech_func(message)
+
+            # user_input = str(speech_to_text()).strip().lower()
+            # with st.spinner("Recording..."):
+            #     handle_recording(duration=12)  # Assuming handle_recording is your recording function
+            # user_input = remove_fullstop_from_input(speech_to_text_azure_streamlit_hindi().strip().lower())
+            user_input = handle_user_input(duration=12)
+            if user_input is False:
+                session.transfer_reason = "Exceed the input limit"
+                message = "माफ़ कीजिए, मुझे आपकी तरफ से कोई जानकारी नहीं मिली है, इसलिए अब मैं कॉल डिस्कनेक्ट कर रही हूँ।"
+                text_to_speech_func(message)
+                return False
+
+
+            prompt = """If there are any numbers, return them in their numeric format, not as text.
+                Ex.: 'आठ छ 97745125' translated to '8697745125' not this 'eight six 97745125'"""
+            user_input = call_openai(write_prompt_for_hindi_to_english(input_text=user_input, instructions=prompt))
+            cleaned_number = re.sub(r"[^\d]", "", user_input)  # Keep only digits, remove anything else
+            with st.chat_message("user"):
+                st.write(cleaned_number)
+
+
+            if len(cleaned_number) == 10 and validate_mobile_number(cleaned_number):
+                session.mobile_number = cleaned_number
+                return True
+            elif len(cleaned_number) in [16, 18]:
+                session.policy_number = cleaned_number
+                return True
+            else:
+                session.auth_attempts += 1
+                if session.auth_attempts < 2:
+
+                    message = "मुझे खेद है, जो जानकारी आपने साझा की है वह हमारे रिकॉर्ड्स से मेल नहीं खाती। चलिए, फिर से प्रयास करते हैं।"
+                    text_to_speech_func(message)
+
+        session.transfer_reason = "Maximum authentication attempts exceeded"
+
+        message = "मुझे खेद है, हम अधिकतम प्रयासों की सीमा पार कर चुके हैं। अलविदा!"
+        text_to_speech_func(message)
+
+        return False
+    except Exception as e:
+        session.transfer_reason = f"Ask for mobile or policy number error: {str(e)}"
+        message = "मुझे खेद है, सिस्टम समस्या के कारण मैं आपको एक एजेंट से जोड़ रही हूँ, जो आगे आपकी सहायता कर सकता है। कृपया इंतजार करें।"
+        text_to_speech_func(message)
+        return False
