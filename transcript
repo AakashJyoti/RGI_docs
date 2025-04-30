@@ -55,6 +55,7 @@ message = (
     f"कृपया पुष्टि कीजिए: पॉलिसी नंबर {session.policy_details['policyno']}, "
     f"बीमित व्यक्ति का नाम {session.policy_details['insured_name']} है। क्या ये सही है?"
 )
+message = f"मैं पॉलिसी नंबर की पुष्टि नहीं कर पाई। अगर आपकी पॉलिसी {last_seven_digit} पर समाप्त होती है, तो कृपया आगे बढ़ने के लिए 'हाँ' कहिए।"
 
 
 
