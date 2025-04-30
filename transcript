@@ -41,54 +41,178 @@ def parse_yes_no(text):
 
 
 
-def ask_mobile_or_policy_number(session:ClaimSession):
+def get_policy_details(session: ClaimSession):
     try:
-        while session.auth_attempts < 2:
+        """
+        This function obtains policy details based on the inputs stored in the session, with enhanced confirmation and retry logic.
+    
+        - If a policy number is already provided, it fetches details and confirms with the user.
+        - If a mobile number is available, it retrieves linked policies, confirms one, and then confirms the details.
+        - Users have two chances to correct their policy number if initial confirmations fail.
+        """
 
-            message = "क्या आप कृपया अपना 16 या 18 अंकों का पॉलिसी नंबर या 10 अंकों का रजिस्टर्ड मोबाइल नंबर साझा कर सकते हैं?"
-            text_to_speech_func(message)
+        # CASE 1: Direct policy number provided in session
+        if getattr(session, 'policy_number', None):
+            policy_number = session.policy_number
+            session.policy_details = fetch_policy_details_via_phone_number(policy_number)
 
-            # user_input = str(speech_to_text()).strip().lower()
-            # with st.spinner("Recording..."):
-            #     handle_recording(duration=12)  # Assuming handle_recording is your recording function
-            # user_input = remove_fullstop_from_input(speech_to_text_azure_streamlit_hindi().strip().lower())
-            user_input = handle_user_input(duration=12)
-            if user_input is False:
-                session.transfer_reason = "Exceed the input limit"
-                message = "माफ़ कीजिए, मुझे आपकी तरफ से कोई जानकारी नहीं मिली है, इसलिए अब मैं कॉल डिस्कनेक्ट कर रही हूँ।"
-                text_to_speech_func(message)
-                return False
+            if session.policy_details:
+                # Confirm policy details with user
+                confirm_msg = (
+                    f"कृपया इस जानकारी की पुष्टि करें: पॉलिसी नंबर {session.policy_details['policyno']} "
+                    f"और बीमित व्यक्ति का नाम {session.policy_details['insured_name']}। क्या यह सही है? कृपया 'हाँ' या 'नहीं' कहें।")
+
+                text_to_speech_func(confirm_msg)
+
+                # user_response = (speech_to_text().strip().lower())
+                # with st.spinner("Recording..."):
+                #     handle_recording(duration=5)  # Assuming handle_recording is your recording function
+                # user_input = speech_to_text_azure_streamlit_hindi().strip().lower()
+                user_input = handle_user_input(duration=5)
+                if user_input is False:
+                    session.transfer_reason = "Exceed the input limit"
+                    message = "माफ़ कीजिए, मुझे आपकी तरफ से कोई जानकारी नहीं मिली है, इसलिए अब मैं कॉल डिस्कनेक्ट कर रही हूँ।"
+                    text_to_speech_func(message)
+                    return False
+
+                prompt = """Please reply it in either 'yes' or 'no'"""
+                user_response = call_openai(write_prompt_for_hindi_to_english(input_text=user_input, instructions=prompt))
+                print(user_response)
+                with st.chat_message("user"):
+                    st.write(user_input)
 
 
-            prompt = """If there are any numbers, return them in their numeric format, not as text.
-                Ex.: 'आठ छ 97745125' translated to '8697745125' not this 'eight six 97745125'"""
-            user_input = call_openai(write_prompt_for_hindi_to_english(input_text=user_input, instructions=prompt))
-            cleaned_number = re.sub(r"[^\d]", "", user_input)  # Keep only digits, remove anything else
-            with st.chat_message("user"):
-                st.write(cleaned_number)
+                if "yes" in user_response or "confirm" in user_response or 'correct' in user_response:
 
-
-            if len(cleaned_number) == 10 and validate_mobile_number(cleaned_number):
-                session.mobile_number = cleaned_number
-                return True
-            elif len(cleaned_number) in [16, 18]:
-                session.policy_number = cleaned_number
-                return True
-            else:
-                session.auth_attempts += 1
-                if session.auth_attempts < 2:
-
-                    message = "मुझे खेद है, जो जानकारी आपने साझा की है वह हमारे रिकॉर्ड्स से मेल नहीं खाती। चलिए, फिर से प्रयास करते हैं।"
+                    message = "मैं आपकी जानकारी देख रही हूँ, कृपया एक पल इंतजार करें।"
                     text_to_speech_func(message)
 
-        session.transfer_reason = "Maximum authentication attempts exceeded"
+                    return True
+                else:
+                    # Handle retries for direct policy number case
+                    return handle_policy_retries(session)
+            else:
+                session.transfer_reason = "Policy details not found for the provided policy number"
 
-        message = "मुझे खेद है, हम अधिकतम प्रयासों की सीमा पार कर चुके हैं। अलविदा!"
-        text_to_speech_func(message)
+                message = "पॉलिसी विवरण नहीं मिल पाया। मैं आपको एजेंट से जोड़ता हूँ।"
+                text_to_speech_func(message)
 
-        return False
+                return False
+
+        # CASE 2: Mobile number available
+        elif getattr(session, 'mobile_number', None):
+            mobile_number = session.mobile_number
+            policy_numbers = extract_motor_policy_numbers(mobile_number)
+
+            if not policy_numbers:
+                session.transfer_reason = "No policy numbers found linked to the provided mobile number"
+
+                message = "हम आपके मोबाइल नंबर से जुड़ी कोई पॉलिसी नहीं ढूंढ पाए। मैं आपको एजेंट से जोड़ता हूँ।"
+                text_to_speech_func(message)
+
+                return False
+
+            confirmed_policy = None
+
+            if len(policy_numbers) > 1:
+                message = "इस नंबर से कई पॉलिसी जुड़ी हुई हैं। मुझे उन्हें एक-एक करके पुष्टि करने दें।"
+                text_to_speech_func(message)
+
+            for policy in policy_numbers:
+
+                message = F"क्या आपकी पॉलिसी नंबर {policy} है? अगर यह सही है, तो कृपया हाँ या नहीं कहें।"
+                text_to_speech_func(message)
+
+
+                # user_reply = remove_fullstop_from_input(speech_to_text().strip().lower())
+                # with st.spinner("Recording..."):
+                #     handle_recording(duration=5)  # Assuming handle_recording is your recording function
+                # user_input = speech_to_text_azure_streamlit_hindi().strip().lower()
+                user_input = handle_user_input(duration=5)
+                if user_input is False:
+                    session.transfer_reason = "Exceed the input limit"
+                    message = "माफ़ कीजिए, मुझे आपकी तरफ से कोई जानकारी नहीं मिली है, इसलिए अब मैं कॉल डिस्कनेक्ट कर रही हूँ।"
+                    text_to_speech_func(message)
+                    return False
+
+                prompt = """Please reply it in either 'yes' or 'no', please analyze the input and then respond"""
+                user_response = call_openai(write_prompt_for_hindi_to_english(input_text=user_input, instructions=prompt))
+                print(user_response)
+                with st.chat_message("user"):
+                    st.write(user_input)
+
+
+
+
+                if "yes" in user_response.lower() or "confirm" in user_response.lower():
+                    confirmed_policy = policy
+                    session.policy_number = policy
+                    break
+
+            if not confirmed_policy:
+                session.transfer_reason = "No policy number confirmed by the user"
+
+                message = "मैं कोई पॉलिसी नंबर पुष्टि नहीं कर सका। मैं आपको एजेंट से जोड़ता हूँ।"
+                text_to_speech_func(message)
+
+                return False
+
+            # Fetch and confirm details
+            session.policy_details = fetch_policy_details_via_phone_number(confirmed_policy)
+            if session.policy_details:
+                confirm_msg = (
+                    f"कृपया इस जानकारी की पुष्टि करें: पॉलिसी नंबर {session.policy_details['policyno']} "
+                    f"और बीमित व्यक्ति का नाम {session.policy_details['insured_name']} है। क्या यह सही है?")
+
+                text_to_speech_func(confirm_msg)
+
+
+                # user_response = remove_fullstop_from_input(speech_to_text().strip().lower())
+                # with st.spinner("Recording..."):
+                #     handle_recording(duration=5)  # Assuming handle_recording is your recording function
+                # user_input = speech_to_text_azure_streamlit_hindi().strip().lower()
+                user_input = handle_user_input(duration=5)
+                if user_input is False:
+                    session.transfer_reason = "Exceed the input limit"
+                    message = "माफ़ कीजिए, मुझे आपकी तरफ से कोई जानकारी नहीं मिली है, इसलिए अब मैं कॉल डिस्कनेक्ट कर रही हूँ।"
+                    text_to_speech_func(message)
+                    return False
+
+                prompt = """Please reply it in either 'yes' or 'no'"""
+                user_response = call_openai(write_prompt_for_hindi_to_english(input_text=user_input, instructions=prompt))
+                print(user_response)
+                with st.chat_message("user"):
+                    st.write(user_input)
+
+
+                if "yes" in user_response.lower() or "confirm" in user_response.lower() :
+
+                    message = "मैं आपकी जानकारी देख रही हूँ, कृपया एक पल इंतजार करें।"
+                    text_to_speech_func(message)
+
+                    return True
+                else:
+                    # Handle retries for mobile-derived policy number
+                    return handle_policy_retries(session)
+            else:
+                session.transfer_reason = "Policy details not found for the confirmed policy number"
+
+                message = "पॉलिसी विवरण नहीं मिल पाया। मैं आपको एजेंट से जोड़ता हूँ।"
+                text_to_speech_func(message)
+
+                return False
+
+        # CASE 3: No relevant information
+        else:
+            session.transfer_reason = "koi polisi ya mobile number pradaan nahi kiyaa gya hai"
+
+            message = "हमारे पास आगे बढ़ने के लिए पॉलिसी नंबर या मोबाइल नंबर होना चाहिए। मैं आपको एजेंट से जोड़ रही हूँ।"
+            text_to_speech_func(message)
+
+            return False
     except Exception as e:
-        session.transfer_reason = f"Ask for mobile or policy number error: {str(e)}"
+        session.transfer_reason = f"Get policy details error: {str(e)}"
         message = "मुझे खेद है, सिस्टम समस्या के कारण मैं आपको एक एजेंट से जोड़ रही हूँ, जो आगे आपकी सहायता कर सकता है। कृपया इंतजार करें।"
         text_to_speech_func(message)
         return False
+
