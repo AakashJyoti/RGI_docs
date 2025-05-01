@@ -1,3 +1,11 @@
+def recognized_callback(evt: speechsdk.SpeechRecognitionEventArgs):
+    result = evt.result
+    if (result.reason == speechsdk.ResultReason.NoMatch and
+        result.no_match_details.reason == speechsdk.NoMatchReason.InitialSilenceTimeout):
+        print("Initial silence timeout detected – prompting user again")
+
+
+
 def update_transcript(session_id: str, speaker: str, message: str) -> None:
     """
     Appends a timestamped line to the `transcript` field of UserDetails.
