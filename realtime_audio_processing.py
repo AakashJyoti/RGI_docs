@@ -96,7 +96,17 @@ SPEECH_REGION="centralindia"
 
 
 
-
+# update 
+def recognized_callback(evt: speechsdk.SpeechRecognitionEventArgs):
+    result = evt.result
+    if result.reason == speechsdk.ResultReason.RecognizedSpeech:
+        print(f"Recognized: {result.text}")
+    elif result.reason == speechsdk.ResultReason.NoMatch:
+        reason = result.no_match_details.reason
+        if reason == speechsdk.NoMatchReason.InitialSilenceTimeout:
+            print("⚠️ Initial silence timeout detected – no speech started in time.")
+        else:
+            print(f"No speech recognized: {reason}")
 
 
 
