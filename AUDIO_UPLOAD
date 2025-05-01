@@ -1,0 +1,73 @@
+# serializers.py
+from rest_framework import serializers
+from .models import AudioUpload
+
+class AudioUploadSerializer(serializers.ModelSerializer):
+    audio_file = serializers.FileField(write_only=True)
+
+    class Meta:
+        model = AudioUpload
+        fields = ['session_id', 'text', 'audio_file']
+
+# azure_blob_utils.py
+import uuid
+from azure.storage.blob import BlobServiceClient, generate_blob_sas, BlobSasPermissions
+from datetime import datetime, timedelta
+
+AZURE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=ivrspeechbot;AccountKey=/SHa3CyglpakdojDQpBYakQidHAwFYTyBLa4dD+oclZQV0XxL5ubgP93/==;EndpointSuffix=core.windows.net"
+
+def upload_file_to_blob(file_obj, file_name):
+    blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
+    blob_client = blob_service_client.get_blob_client(container=AZURE_CONTAINER_NAME, blob=file_name)
+    blob_client.upload_blob(file_obj, overwrite=True)
+
+    sas_token = generate_blob_sas(
+        account_name=blob_client.account_name,
+        container_name=blob_client.container_name,
+        blob_name=blob_client.blob_name,
+        account_key=blob_service_client.credential.account_key,
+        permission=BlobSasPermissions(read=True),
+        expiry=datetime.utcnow() + timedelta(hours=1)
+    )
+
+    sas_url = f"https://{blob_client.account_name}.blob.core.windows.net/{AZURE_CONTAINER_NAME}/{file_name}?{sas_token}"
+    return sas_url
+
+
+
+# views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import AudioUploadSerializer
+from .models import AudioUpload
+from .azure_blob_upload import upload_file_to_blob
+import uuid
+
+class AudioUploadView(APIView):
+    def post(self, request):
+        serializer = AudioUploadSerializer(data=request.data)
+        if serializer.is_valid():
+            file_obj = serializer.validated_data['audio_file']
+            file_name = f"{uuid.uuid4()}.wav"  # or get extension dynamically
+            sas_url = upload_file_to_blob(file_obj, file_name)
+
+            # Save metadata
+            AudioUpload.objects.create(
+                session_id=serializer.validated_data['session_id'],
+                text=serializer.validated_data['text'],
+                sas_url=sas_url
+            )
+            return Response({"sas_url": sas_url}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+path('upload-audio/', AudioUploadView.as_view(), name='upload-audio'),
+
+
+
+class AudioUpload(models.Model):
+    session_id = models.CharField(max_length=100)
+    text = models.TextField()
+    sas_url = models.URLField()
+    uploaded_at = models.DateTimeField(auto_now_add=True)
