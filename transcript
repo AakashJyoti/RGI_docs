@@ -49,15 +49,30 @@ def parse_yes_no(text):
 
 
 prompt = (
-    "When translating Hindi to English, ensure that any numbers are preserved in their numeric form, "
-    "not spelled out as text.\n"
-    "For example:\n"
-    "Hindi: 'आठ छ 97745125'\n"
-    "Correct Translation: '8697745125'\n"
-    "Incorrect Translation: 'eight six 97745125'\n"
-    "→ Always prefer numeric digits over their word equivalents for numbers."
+    "When translating Hindi to English, always convert any spoken or written number words into numeric digits.\n"
+    "- This includes Hindi number words like 'एक', 'दो', 'आठ', etc.\n"
+    "- If a sentence includes both digits and number words, convert all into numeric format.\n"
+    "Examples:\n"
+    "Hindi: 'आठ छ 97745125' → English: '8697745125'\n"
+    "Hindi: '123456789 आठ?' → English: '1234567898?'\n"
+    "Hindi: 'पाँच सौ बीस' → English: '520'\n"
+    "Do not spell out numbers as words (e.g., 'eight' or 'five hundred twenty'). Always use numeric digits."
 )
- कृपया आगे बढ़ने के लिए अपना मोबाइल नंबर प्रदान करें।
+prompt = (
+    "Translate the given Hindi text into English.\n\n"
+    "Important Instructions:\n"
+    "- Any numbers written as Hindi words (e.g., 'एक', 'दो', 'तीन') or Hindi-script digits (e.g., '१२३') must be converted to standard Arabic numerals (e.g., '1', '2', '3').\n"
+    "- Do not spell numbers out in English words (e.g., avoid 'one', 'two', 'three'). Always use digit format.\n"
+    "- If the text contains a mix of words and digits (e.g., '123 आठ'), convert all parts to digits: '1238'.\n"
+    "- Maintain correct numeric order and context.\n\n"
+    "Examples:\n"
+    "- 'आठ छ 97745125' → '8697745125'\n"
+    "- '123456789 आठ?' → '1234567898?'\n"
+    "- '१२३ चार पाँच' → '12345'\n"
+    "- 'मोबाइल नंबर ९८७६५४३२१० है।' → 'Mobile number 9876543210 is.'\n\n"
+    "Text to translate:"
+)
+
 
 
 
