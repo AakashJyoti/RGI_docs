@@ -1,0 +1,48 @@
+message = "Please confirm whether this claim is for an accident or theft."
+     "कृपया पुष्टि करें कि यह दावा दुर्घटना के लिए है या चोरी के लिए।"
+     "कृपया पुष्टि करें, क्या यह दावा दुर्घटना के लिए है या वाहन चोरी के लिए?"
+
+message = "I understand this is a theft claim. I'll need to transfer you to a specialized agent for further assistance. Please hold."
+message = "मैं समझ गई हूँ कि यह चोरी से संबंधित दावा है। आगे सहायता के लिए मैं आपको एक विशेष एजेंट से जोड़ रही हूँ। कृपया इंतजार करें।"
+
+message = "I'm sorry to hear about the accident. Have you reported the vehicle to a garage?"
+message = "दुर्घटना के बारे में सुनकर खेद है। क्या आपने वाहन को किसी गैराज में रिपोर्ट किया है?" 
+
+message = "Thank you for reporting the vehicle. I will need some details about the accident. Let's go through them one by one."
+message = "वाहन को गैराज में रिपोर्ट करने के लिए धन्यवाद। अब मुझे दुर्घटना से जुड़ी कुछ और जानकारी चाहिए होगी। आइए एक-एक करके आगे बढ़ते हैं।"
+
+message = "Please provide the date of the accident, using the format: date, month, and year."
+"कृपया दुर्घटना की तिथि इस प्रारूप में साझा करें: तारीख, महीना, और वर्ष?"
+
+message = "Please ensure the date of loss falls within the policy period. Let's give it another try. Kindly share the date again."
+message = "कृपया सुनिश्चित करें कि हानि की तारीख आपकी पॉलिसी अवधि के भीतर हो। चलिए एक बार फिर कोशिश करते हैं, कृपया तारीख दोबारा बताएं।"
+message = "कृपया यह सुनिश्चित करें कि दुर्घटना की तिथि पॉलिसी अवधि के भीतर हो। चलिए एक बार फिर कोशिश करते हैं, कृपया तिथि को फिर से साझा करें।"
+
+message = "Date of loss should be within policy period. I'll transfer you to an agent for further details. Please hold."
+message = "दुर्घटना की तिथि पॉलिसी अवधि के भीतर होनी चाहिए। अब मैं आपको आगे सहायता के लिए एक एजेंट से जोड़ रही हूँ। कृपया थोड़ी देर इंतजार करें।"
+
+message = "Please provide the time of the accident."
+message = "कृपया दुर्घटना का समय बताएं।"
+
+message = "Please provide the location of the accident."
+message = "कृपया दुर्घटना का स्थान बताएं।"
+
+message = "Please provide the driver Name."
+message = "कृपया ड्राइवर का नाम बताएं।"
+
+message = "Please provide some information about the accident."
+message = "कृपया दुर्घटना से संबंधित कुछ जानकारी साझा करें।"
+
+message = "Since the vehicle hasn't been reported to a garage yet, I will transfer you to an agent for further guidance on the next steps. Please hold."
+message = "चूंकि वाहन को अभी तक किसी गैराज में रिपोर्ट नहीं किया गया है, मैं आपको आगे की जानकारी के लिए एक एजेंट से जोड़ रही हूँ। कृपया थोड़ी देर इंतजार करें।"
+
+message = "Sorry I didn't catch that, can you please confirm if the vehicle has been reported to the garage or not?"
+message = "माफ़ कीजिए, मैं ठीक से सुन नहीं पाई। क्या आप पुष्टि कर सकते हैं कि वाहन गैराज में रिपोर्ट किया गया है या नहीं?"
+
+message = "Sorry, I am not able to confirm the details that you have provided, I'm connecting you to an agent who can assist you further, please wait."
+message = "माफ़ कीजिए, मैं आपकी दी गई जानकारी की पुष्टि नहीं कर सकी। अब मैं आपको एक एजेंट से जोड़ रही हूँ जो आपकी आगे मदद करेंगे। कृपया प्रतीक्षा करें।"
+
+message = "I'm sorry, due to a system issue, I'm connecting you to an agent who can assist you further. Please wait."
+message = "माफ़ कीजिए, सिस्टम में कुछ समस्या आ गई है। अब मैं आपको एक एजेंट से जोड़ रही हूँ जो आपकी मदद करेंगे। कृपया प्रतीक्षा करें।"
+
+message = "माफ़ कीजिए, मुझे आपकी तरफ से कोई जानकारी नहीं मिली है, इसलिए अब मैं कॉल डिस्कनेक्ट कर रही हूँ।"
