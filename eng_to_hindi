@@ -1,48 +1,106 @@
-message = "Please confirm whether this claim is for an accident or theft."
-     "कृपया पुष्टि करें कि यह दावा दुर्घटना के लिए है या चोरी के लिए।"
-     "कृपया पुष्टि करें, क्या यह दावा दुर्घटना के लिए है या वाहन चोरी के लिए?"
+message = "Please provide the pincode of the garage."
+message = "कृपया गैराज का पिनकोड बताएं।"
 
-message = "I understand this is a theft claim. I'll need to transfer you to a specialized agent for further assistance. Please hold."
-message = "मैं समझ गई हूँ कि यह चोरी से संबंधित दावा है। आगे सहायता के लिए मैं आपको एक विशेष एजेंट से जोड़ रही हूँ। कृपया इंतजार करें।"
+message = "No garages were found in that pincode. Please provide the correct 6 digit pincode."
+message = "उस पिनकोड में कोई गैराज नहीं मिला। कृपया सही 6 अंकों का पिनकोड बताएं।"
 
-message = "I'm sorry to hear about the accident. Have you reported the vehicle to a garage?"
-message = "दुर्घटना के बारे में सुनकर खेद है। क्या आपने वाहन को किसी गैराज में रिपोर्ट किया है?" 
+message = "Thank you for providing the pincode. I'm now checking our records for that pincode."
+message = "पिनकोड देने के लिए धन्यवाद। अब मैं हमारे रिकॉर्ड में उस पिनकोड की जानकारी देख रही हूँ।"
 
-message = "Thank you for reporting the vehicle. I will need some details about the accident. Let's go through them one by one."
-message = "वाहन को गैराज में रिपोर्ट करने के लिए धन्यवाद। अब मुझे दुर्घटना से जुड़ी कुछ और जानकारी चाहिए होगी। आइए एक-एक करके आगे बढ़ते हैं।"
+message = "Couldn't identify the correct pincode. Please hold while I transfer you to an agent for further assistance."
+message = "सही पिनकोड की पहचान नहीं हो पाई। अब मैं आपको एक एजेंट से जोड़ रही हूँ जो आपकी आगे सहायता करेंगे। कृपया थोड़ी देर इंतजार करें।"
+          "उस पिनकोड में कोई गैराज नहीं मिला। अब मैं आपको आगे की सहायता के लिए एक एजेंट से जोड़ रही हूँ। कृपया थोड़ी देर इंतजार करें।"
 
-message = "Please provide the date of the accident, using the format: date, month, and year."
-"कृपया दुर्घटना की तिथि इस प्रारूप में साझा करें: तारीख, महीना, और वर्ष?"
+message = "Sorry, the pincode you provided is incorrect. Please provide the correct 6 digit pincode."
+message = "माफ़ कीजिए, आपने जो पिनकोड दिया है वह सही नहीं है। कृपया 6 अंकों का सही पिनकोड बताएं।"
 
-message = "Please ensure the date of loss falls within the policy period. Let's give it another try. Kindly share the date again."
-message = "कृपया सुनिश्चित करें कि हानि की तारीख आपकी पॉलिसी अवधि के भीतर हो। चलिए एक बार फिर कोशिश करते हैं, कृपया तारीख दोबारा बताएं।"
-message = "कृपया यह सुनिश्चित करें कि दुर्घटना की तिथि पॉलिसी अवधि के भीतर हो। चलिए एक बार फिर कोशिश करते हैं, कृपया तिथि को फिर से साझा करें।"
+message = f"We found the garage {garage['GarageName']} located at {remove_special_characters_except_comma(garage['Address'])}. Is this correct?"
+message = f"क्या आप {garage['GarageName']} की बात कर रहे हैं, जो {remove_special_characters_except_comma(garage['Address'])} पर स्थित है?"
 
-message = "Date of loss should be within policy period. I'll transfer you to an agent for further details. Please hold."
-message = "दुर्घटना की तिथि पॉलिसी अवधि के भीतर होनी चाहिए। अब मैं आपको आगे सहायता के लिए एक एजेंट से जोड़ रही हूँ। कृपया थोड़ी देर इंतजार करें।"
+message = "The garage has been verified in our system. Let's proceed with the claim."
+message = "गैराज की पुष्टि हो चुकी है। अब हम क्लेम प्रक्रिया शुरू कर सकते हैं।"
 
-message = "Please provide the time of the accident."
-message = "कृपया दुर्घटना का समय बताएं।"
+message = "We found multiple garages in that pincode. Please provide the name of the garage."
+message = "हमें उस पिनकोड में कई गैराज मिले हैं। कृपया गैराज का नाम बताएं।"
 
-message = "Please provide the location of the accident."
-message = "कृपया दुर्घटना का स्थान बताएं।"
+message = "No exact matches found. Let me list all garages in this pincode for confirmation:"
+message = "इस नाम से कई गैराज मौजूद हैं। चलिए एक-एक करके पुष्टि करते हैं:"
 
-message = "Please provide the driver Name."
-message = "कृपया ड्राइवर का नाम बताएं।"
+message = f"Did you mean {garage['GarageName']} located at {remove_special_characters_except_comma(garage['Address'])}?"
+message = f"क्या यह {garage['GarageName']} है, जो {remove_special_characters_except_comma(garage['Address'])} पर स्थित है?"
 
-message = "Please provide some information about the accident."
-message = "कृपया दुर्घटना से संबंधित कुछ जानकारी साझा करें।"
+message = f"Confirmed {selected_garage['GarageName']}. The garage has been verified. Let's proceed with the claim."
+message = "आपने {GarageName} की पुष्टि की है। अब हम आपकी क्लेम प्रक्रिया को आगे ले जा रहे हैं।"
 
-message = "Since the vehicle hasn't been reported to a garage yet, I will transfer you to an agent for further guidance on the next steps. Please hold."
-message = "चूंकि वाहन को अभी तक किसी गैराज में रिपोर्ट नहीं किया गया है, मैं आपको आगे की जानकारी के लिए एक एजेंट से जोड़ रही हूँ। कृपया थोड़ी देर इंतजार करें।"
+message = "None of the garages matched your request. Please hold while I transfer you to an agent for further assistance."
+message = "माफ़ कीजिए, आपके द्वारा बताई गई जानकारी से कोई गैराज नहीं मिला। अब मैं एक एजेंट से कनेक्ट कर रही हूँ।"
 
-message = "Sorry I didn't catch that, can you please confirm if the vehicle has been reported to the garage or not?"
-message = "माफ़ कीजिए, मैं ठीक से सुन नहीं पाई। क्या आप पुष्टि कर सकते हैं कि वाहन गैराज में रिपोर्ट किया गया है या नहीं?"
+message = f"We found {garage['GarageName']} located at {remove_special_characters_except_comma(garage['Address'])}. Is this correct?"
+message = f"हमें {garage['GarageName']} मिला है जो {remove_special_characters_except_comma(garage['Address'])} पर स्थित है। क्या यह सही है?"
+
+message = f"Is it {garage['GarageName']} located at {remove_special_characters_except_comma(garage['Address'])}?"
+message = f"क्या यह {garage['GarageName']} है, जो {remove_special_characters_except_comma(garage['Address'])} पर स्थित है?"
+
+message = f"You have confirmed {selected_garage['GarageName']} located at {remove_special_characters_except_comma(selected_garage['Address'])}. The garage has been verified. Let's proceed with the claim."
+message = "आपने {GarageName} की पुष्टि की है, जो {Address} पर है। हमने इसे सिस्टम में मान्य कर लिया है। चलिए आगे बढ़ते हैं।"
+
+message = "None of the garages were selected. I will now transfer you to an agent. Please hold."
+message = "आपने किसी भी गैराज का चयन नहीं किया। अब मैं आपको एक एजेंट से जोड़ रही हूँ। कृपया थोड़ी देर इंतजार करें।"
+
+message = "There are multiple garages with that name. Let me confirm each one:"
+message = "हमें उस नाम से कई गैराज मिले हैं। मैं एक-एक करके पुष्टि करती हूँ:"
+
+
+
+
+
+message = (
+    "Please confirm if all details are correct: "
+    f"Policy Number: {policy_no}, "
+    f"Insured Name: {insured_name}, "
+    f"Accident Date: {accident_date}, "
+    f"Location: {session.claim_details.get('accident_location', 'N/A')}, "
+    f"Driver: {driver_name}, "
+    "Is this correct?"
+)
+message = (
+    "कृपया पुष्टि करें कि क्या सभी जानकारी सही है: "
+    f"पॉलिसी नंबर: {policy_no}, "
+    f"बीमित व्यक्ति का नाम: {insured_name}, "
+    f"दुर्घटना की तिथि: {accident_date}, "
+    f"स्थान: {session.claim_details.get('accident_location', 'उपलब्ध नहीं')}, "
+    f"ड्राइवर का नाम: {driver_name},"
+    "क्या ये सभी विवरण सही हैं?"
+)
+
+message = "I'll now generate your claim intimation ID. Please wait a moment while I process this."
+"मैं अब आपका क्लेम इंटिमेशन आईडी जनरेट कर रही हूँ। कृपया थोड़ी देर इंतजार करें।"
+
+message = "I'm sorry, I'm having trouble generating your claim intimation ID due to a system issue. I will transfer you to an agent who can help you further. Please hold."
+message = "मुझे खेद है, सिस्टम समस्या के कारण मैं आपका क्लेम इंटिमेशन आईडी जनरेट करने में असमर्थ हूँ। मैं आपको एक एजेंट से जोड़ रही हूँ, जो आपकी और सहायता कर सके। कृपया थोड़ी देर इंतजार करें।"
+
+message = ("Claim successfully registered! Your claim intimation number is: " 
+            + " ".join(session.claim_details['claim_no']) + 
+           ". We'll send SMS confirmation shortly.")
+message = ("आपका क्लेम सफलतापूर्वक पंजीकृत हो गया है! आपका क्लेम इंटिमेशन नंबर है: "
+           + " ".join(session.claim_details['claim_no'])।+
+           "हम आपको जल्द ही एसएमएस के माध्यम से पुष्टि भेजेंगे।"
+
+message = "There is some technical issues, I'll transfer you to an agent for further details. Please hold."
+message = "मुझे खेद है, कुछ तकनीकी समस्या के कारण, मैं आपको एक एजेंट से जोड़ रही हूँ, जो आपकी सहायता करेगा। कृपया थोड़ी देर इंतजार करें।"
+
+message = "I'll transfer you to an agent to correct the details. Please hold."
+message = "मैं आपकी जानकारी को सही करने के लिए आपको एक एजेंट से जोड़ रही हूँ। कृपया थोड़ी देर इंतजार करें।"
+
+message = "Sorry, I didn't catch that, can you please confirm if the provided details are correct?"
+message = "मुझे खेद है, मैंने वो नहीं सुना, कृपया पुष्टि करें कि जो जानकारी आपने दी है, वह सही है?"
 
 message = "Sorry, I am not able to confirm the details that you have provided, I'm connecting you to an agent who can assist you further, please wait."
-message = "माफ़ कीजिए, मैं आपकी दी गई जानकारी की पुष्टि नहीं कर सकी। अब मैं आपको एक एजेंट से जोड़ रही हूँ जो आपकी आगे मदद करेंगे। कृपया प्रतीक्षा करें।"
+message = "मुझे खेद है, मैं आपके द्वारा दी गई जानकारी की पुष्टि नहीं कर पा रही हूँ, अब मैं आपको एक एजेंट से जोड़ रही हूँ जो आगे आपकी सहायता करेगा। कृपया थोड़ी देर इंतजार करें।"
 
-message = "I'm sorry, due to a system issue, I'm connecting you to an agent who can assist you further. Please wait."
-message = "माफ़ कीजिए, सिस्टम में कुछ समस्या आ गई है। अब मैं आपको एक एजेंट से जोड़ रही हूँ जो आपकी मदद करेंगे। कृपया प्रतीक्षा करें।"
 
-message = "माफ़ कीजिए, मुझे आपकी तरफ से कोई जानकारी नहीं मिली है, इसलिए अब मैं कॉल डिस्कनेक्ट कर रही हूँ।"
+
+
+
+message = "Thank you for contacting our claim intimation helpline. If you have any further questions or concerns, feel free to call us back or visit our website. Have a great day!"
+message = "हमारी क्लेम इंटिमेशन हेल्पलाइन से संपर्क करने के लिए धन्यवाद। यदि आपको आगे किसी सहायता की आवश्यकता हो, तो कृपया हमें फिर से कॉल करें या हमारी वेबसाइट पर विज़िट करें। आपका दिन शुभ हो!"
