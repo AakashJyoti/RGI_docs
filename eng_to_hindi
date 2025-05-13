@@ -104,6 +104,17 @@ message = "मुझे खेद है, मैं आपके द्वार
 
 
 
-
 message = "Thank you for contacting our claim intimation helpline. If you have any further questions or concerns, feel free to call us back or visit our website. Have a great day!"
 message = "हमारी क्लेम इंटिमेशन हेल्पलाइन से संपर्क करने के लिए धन्यवाद। यदि आपको आगे किसी सहायता की आवश्यकता हो, तो कृपया हमें फिर से कॉल करें या हमारी वेबसाइट पर विज़िट करें। आपका दिन शुभ हो!"
+
+
+
+
+
+"Extract only the date from the following Hindi sentence. Return the date in English in the format DD-MM-YYYY (or any preferred format). Do not include any extra text."
+
+Example input:
+"मेरी परीक्षा 25 मार्च 2025 को है।"
+
+Expected output:
+25-03-2025
