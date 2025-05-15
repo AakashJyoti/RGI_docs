@@ -17,3 +17,48 @@ response = requests.post(
     json=data,
     proxies=proxies  # Explicitly bypass proxy
 )
+
+
+
+
+import requests
+
+# Azure OpenAI Configuration
+AZURE_RESOURCE = "your-resource-name"  # e.g., "myazureaicluster"
+AZURE_DEPLOYMENT = "your-deployment-name"  # e.g., "gpt-35-turbo"
+AZURE_API_KEY = "your-api-key"
+API_VERSION = "2023-05-15"  # Check for the latest version
+
+# Construct the endpoint URL
+url = f"https://{AZURE_RESOURCE}.openai.azure.com/openai/deployments/{AZURE_DEPLOYMENT}/chat/completions?api-version={API_VERSION}"
+
+# Headers with API key
+headers = {
+    "Content-Type": "application/json",
+    "api-key": AZURE_API_KEY
+}
+
+# Example data for a chat completion
+data = {
+    "messages": [
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "What is Azure OpenAI?"}
+    ],
+    "temperature": 0.7,
+    "max_tokens": 500
+}
+
+# Bypass proxy for this request
+proxies = {"http": None, "https": None}
+
+try:
+    response = requests.post(
+        url,
+        headers=headers,
+        json=data,
+        proxies=proxies  # Explicitly disable proxy
+    )
+    response.raise_for_status()  # Raise HTTP errors
+    print(response.json()['choices'][0]['message']['content'])
+except requests.exceptions.RequestException as e:
+    print(f"Error: {e}")
