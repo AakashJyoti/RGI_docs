@@ -1,0 +1,19 @@
+import requests
+ 
+# Azure OpenAI endpoint and headers/data
+url = "https://YOUR_RESOURCE.openai.azure.com/..."
+headers = {"api-key": "YOUR_KEY"}
+data = {...}
+ 
+# Bypass proxy for this request
+proxies = {
+    "http": None,
+    "https": None
+}
+ 
+response = requests.post(
+    url,
+    headers=headers,
+    json=data,
+    proxies=proxies  # Explicitly bypass proxy
+)
