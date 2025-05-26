@@ -49,3 +49,159 @@ def ask_for_mobile_number(session: ClaimSession):
         message = "I'm sorry, due to a system issue, I'm connecting you to an agent who can assist you further. Please wait."
         text_to_speech_func_english(message)
         return redirecting_to_agent(session.transfer_reason)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def handle_multiple_policies(session, ph_nu):
+    """Handles different scenarios based on the number of policies dynamically and assigns the correct name."""
+
+    global policy_details  # Ensure access to global policy details
+    
+    # List of product codes that require transferring to an agent
+    restricted_product_codes = [
+        2812, 2824, 2825, 2826, 2827, 2828, 2829, 2835, 2842, 2843, 2845, 2847, 
+        2849, 2850, 2851, 2852, 2853, 2854, 2856, 2857, 2858, 2859, 2860, 2861, 
+        2862, 2864, 2865, 2914, 2913, 2945, 2711, 3011, 3015, 2934, 2933, 2929, 
+        2931, 2835, 2829, 2951, 2952, 2955, 2942, 2875, 2958
+    ]
+    
+    import difflib
+
+    def normalize_user_response(user_input):
+        """Returns 'yes' or 'no' if close match is found, else returns None."""
+        user_input = user_input.strip().lower().replace(".", "").replace(",", "")
+        options = ["yes", "no"]
+        match = difflib.get_close_matches(user_input, options, n=1, cutoff=0.8)
+        return match[0] if match else None
+
+
+    policies = extract_motor_policy_numbers(ph_nu)
+    print(f"Extracted policies: {policies}") 
+
+    if isinstance(policies, str):
+        text_to_speech_func_english(policies)
+        text_to_speech_func_english("Transferring you to an agent.")
+        return False
+
+    policy_count = len(policies)
+#   check this condition if else   *********************************************
+    if policy_count == 1:
+        session.policy_number = policies[0]
+        selected_policy = next((p for p in policy_details if p["policy_number"] == session.policy_number), None)
+        
+        if selected_policy:
+            session.policy_details = [selected_policy]
+            session.mobile_number = selected_policy["mobile_number"]
+            selected_name = selected_policy.get("name", "Customer")
+            
+            # Check if the product code requires transfer
+            if selected_policy.get("product_code") and int(selected_policy["product_code"]) in restricted_product_codes:
+                text_to_speech_func_english("Your policy type requires assistance. Transferring you to an agent.")
+                return False
+            
+        else:
+            selected_name = "Customer"
+
+        text_to_speech_func_english(f"I have identified your policy. I'll take you to the correct queue based on your policy type.")
+        text_to_speech_func_english(f"Your policy {session.policy_number} is selected. Proceeding with intimation.")
+        text_to_speech_func_english(f"Thank you, {selected_name}. Your mobile number is {session.mobile_number}.")
+        return True
+
+    elif 2 <= policy_count <= 3:
+        message = "You have multiple policies. I will read the last 7 digits of each policy one by one. Please confirm."
+        text_to_speech_func_english(message)
+        selected_policy = None 
+
+        for policy_no in policies:
+            last_7_digits = policy_no[-7:]
+            text_to_speech_func_english(f"Does your policy number end with {last_7_digits}? Please say 'yes' or 'no'.")
+            # user_input = handle_user_input(duration=5).replace(" ", "").replace(".", "").lower()
+            
+            user_input = handle_user_input(duration=5)
+            user_input = user_input.replace(" ", "").replace(".", "").lower() if user_input else ""
+            # user_input = "yes"
+            
+            if not user_input or not isinstance(user_input, str):
+                #    text_to_speech_func_english("No input detected. Disconnecting the call.")
+                   return False  # <-- Stop execution if the user stays silent.
+            user_input = user_input.strip().lower() if isinstance(user_input, str) and user_input in ["yes", "no", "confirm"] else ""
+            
+            # user_input ="yes"
+            user_input = normalize_user_response(user_input)
+
+            if user_input in ["yes", "confirm"]:
+                session.policy_number = policy_no
+                selected_policy = next((p for p in policy_details if p["policy_number"] == session.policy_number), None)
+ 
+                if selected_policy:
+                    session.policy_details = [selected_policy]
+                    session.mobile_number = selected_policy["mobile_number"]
+                    selected_name = selected_policy.get("name", "Customer")
+                    
+                    # Check if the product code requires transfer
+                    if selected_policy.get("product_code") and int(selected_policy["product_code"]) in restricted_product_codes:
+                        text_to_speech_func_english("Your policy type requires assistance. Transferring you to an agent.")
+                        return False
+
+                else:
+                    selected_name = "Customer"
+
+                text_to_speech_func_english(f"You selected policy {session.policy_number} and your name is {selected_name}")
+                text_to_speech_func_english(f"Thank you, {selected_name}. Your mobile number is {session.mobile_number}.")
+                return True  
+            
+            elif user_input in ["no"]:
+                text_to_speech_func_english("Okay, let's check the next policy.")
+                continue  
+            
+            else:
+                text_to_speech_func_english("Invalid response. ")
+                continue
+
+        # text_to_speech_func_english("No policy was confirmed. Transferring you to an agent.")
+        if not  selected_policy:
+            text_to_speech_func_english("No policies found. Transferring to an agent.")
+            return False
+#  in this if user give something out put like i dont know so i need to  give retry 2 times then disconnect the call 
+    elif policy_count >= 4:
+        text_to_speech_func_english("You have multiple policies. Please say the last 7 digits of the policy number.")
+        user_input = handle_user_input(duration=7)
+
+        selected_policy = next((p for p in policy_details if user_input in p["policy_number"]), None)
+
+        if selected_policy:
+            session.policy_number = selected_policy["policy_number"]
+            session.policy_details = [selected_policy]
+            session.mobile_number = selected_policy["mobile_number"]
+            selected_name = selected_policy.get("name", "Customer")
+
+            # Check if the product code requires transfer
+            if selected_policy.get("product_code") and int(selected_policy["product_code"]) in restricted_product_codes:
+                text_to_speech_func_english("Your policy type requires assistance. Transferring you to an agent.")
+                return False
+
+            text_to_speech_func_english(f"Policy {session.policy_number} selected. Proceeding with intimation.")
+            text_to_speech_func_english(f"Thank you, {selected_name}.")
+            return True
+
+        text_to_speech_func_english("Policy not found. Transferring to an agent.")
+        return False
+
+    else:
+        text_to_speech_func_english("No policies found. Transferring to an agent.")
+        return False
