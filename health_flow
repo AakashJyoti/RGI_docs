@@ -1,0 +1,51 @@
+def ask_for_mobile_number(session: ClaimSession):
+    """
+    Ask the user for their 10-digit mobile number and validate it.
+    If valid, store it in the session; otherwise, transfer to an agent.
+    """
+    try:
+        for attempt in range(2):  # Allow 2 attempts
+            message = "The mobile number you called from is not your registered mobile number. Please share your 10-digit registered mobile number?"
+            text_to_speech_func_english(message)
+            # st.write(message)
+
+            user_input = handle_user_input(duration=10)
+            if user_input is False:
+                session.transfer_reason = "Exceeded input limit"
+                return redirecting_to_agent(session.transfer_reason)
+
+            cleaned_number = re.sub(r"[^\d]", "", user_input)  # Keep only digits
+
+            if len(cleaned_number) == 10 and validate_mobile_number(cleaned_number):
+                session.mobile_number = cleaned_number
+                
+                print("this is session mobile ",  session.mobile_number)
+                
+                text_to_speech_func_english("Thank you. I am now validating the information you provided. Please wait a moment.")
+                st.write("Thank you. I am now validating the information you provided. Please wait a moment.")
+
+                # if not get_policy_details(session):
+                #     print(session.__dict__)
+                #     return redirecting_to_agent(session.transfer_reason)
+                return True  # Successfully validated
+
+            else:
+                if attempt == 0:
+                    message = "I'm sorry, the information you shared does not match our records. Can you please try again?"
+                else:
+                    session.transfer_reason = "Maximum authentication attempts exceeded"
+                    message = "Sorry, we are unable to verify your information. Transferring you to an agent."
+                
+                text_to_speech_func_english(message)
+                st.write(message)
+
+                if session.transfer_reason:
+                    return redirecting_to_agent(session.transfer_reason)
+                    
+        return False  # If validation fails
+
+    except Exception as e:
+        session.transfer_reason = f"Mobile number validation error: {str(e)}"
+        message = "I'm sorry, due to a system issue, I'm connecting you to an agent who can assist you further. Please wait."
+        text_to_speech_func_english(message)
+        return redirecting_to_agent(session.transfer_reason)
