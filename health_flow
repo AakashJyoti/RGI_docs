@@ -58,10 +58,18 @@ def ask_for_mobile_number(session: ClaimSession):
 
 
 def fetch_policy_details(policy_no):
-    url = f'http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/getpolicyclassificationforpolicy?policyno={policy_no}'
-    headers = {"Authorization": "Basic UkdJQ29ycDpWQGxpZEB0ZQ=="}
-    response = requests.get(url, headers=headers)
-    return response.json()
+    import requests
+
+    url = f"http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/getpolicyclassificationforpolicy?policyno={policy_no}"
+
+    payload = ""
+    headers = {
+    'Authorization': 'Basic UkdJQ29ycDpWQGxpZEB0ZQ=='
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    print(response.text)
 
 
 
