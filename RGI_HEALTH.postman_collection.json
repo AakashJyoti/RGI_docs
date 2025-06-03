@@ -1,0 +1,385 @@
+{
+	"info": {
+		"_postman_id": "96f8f9a8-373d-45b7-b42b-a9f5599fb637",
+		"name": "RGI_HEALTH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40005456"
+	},
+	"item": [
+		{
+			"name": "familyclaimdetails",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic UkdJQ29ycDpWQGxpZEB0ZQ==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/getpolicyclassificationforpolicy?policyno=130592329291010982",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"co",
+						"in"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"getpolicyclassificationforpolicy"
+					],
+					"query": [
+						{
+							"key": "policyno",
+							"value": "130592329291010982"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getpolicyclassificationforpolicy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/getpolicyclassificationforpolicy?policyno=130592329291010982",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"co",
+						"in"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"getpolicyclassificationforpolicy"
+					],
+					"query": [
+						{
+							"key": "policyno",
+							"value": "130592329291010982"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HospitalSearchList",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic UkdJQ29ycDpWQGxpZEB0ZQ==",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"HospitalName\": \"\",\r\n    \"PinCode\": \"400710\",\r\n    \"Cityid\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mservices.brobotinsurance.com/ldapauth/api/corporateportalapi/HospitalSearchList",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"com"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"HospitalSearchList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPolicyMemberDetailsForPolicy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic UkdJQ29ycDpWQGxpZEB0ZQ==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"EmployeeId\": \"10000003\",\r\n    \"PolicyClassification\": \"Corporate\",\r\n    \"PolicyNo\": \"202232812000002305\",\r\n    \"UHID\": \"\",\r\n    \"InsuredABHAId\":\"\",\r\n    \"InsuredABHAAddress\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mservices.brobotinsurance.com/ldapauth/api/corporateportalapi/GetPolicyMemberDetailsForPolicy",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"com"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"GetPolicyMemberDetailsForPolicy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "familyclaimdetails",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic UkdJQ29ycDpWQGxpZEB0ZQ==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://mservices.brobotinsurance.com/ldapauth/api/corporateportalapi/familyclaimdetails?policyno=202232812000002305&employeeid=10000003&InsuredABHAId=0&InsuredABHAAddress=0",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"com"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"familyclaimdetails"
+					],
+					"query": [
+						{
+							"key": "policyno",
+							"value": "202232812000002305"
+						},
+						{
+							"key": "employeeid",
+							"value": "10000003"
+						},
+						{
+							"key": "InsuredABHAId",
+							"value": "0"
+						},
+						{
+							"key": "InsuredABHAAddress",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "corporatepolicy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic UkdJQ29ycDpWQGxpZEB0ZQ==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/corporatepolicy/email/0/mobile/8432565427",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"co",
+						"in"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"corporatepolicy",
+						"email",
+						"0",
+						"mobile",
+						"8432565427"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IntimateHealthClaim",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic UkdJQ29ycDpWQGxpZEB0ZQ==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ProposerName\": \"MEENA PATIL\",\r\n  \"AdmissionDate\": \"2024-03-06\",\r\n  \"DischargeDate\": \"\",\r\n  \"DoctorName\": \"fsfdgdf\",\r\n  \"DiagnosisDetails\": \"gdfsf\",\r\n  \"ClDetailId\": \"\",\r\n  \"HospitalName\": \"Apex Citi Hospital (A Unit Of Siddharth Health Care Pvt. Ltd.)\",\r\n  \"DocumentList\": [],\r\n  \"MobileNumber\": \"91-9100000008\",\r\n  \"ReceivedMode\": \"Sbot\",\r\n  \"IntimatorRelationship\": \"\",\r\n  \"PatientMobileNo\": \"91-9100000008\",\r\n  \"InsuredName\": \"MEENA PATIL\",\r\n  \"EmployeeID\": \"70310111\",\r\n  \"EmailID\": \"test@sp.com\",\r\n  \"Age\": \"39\",\r\n  \"RelationShip\": \"SPOUSE\",\r\n  \"PatientName\": \"MEENA PATIL\",\r\n  \"UHIDNumber\": \"RMDDG23000001B1\",\r\n  \"PatientUHID\": \"RMDDG23000001B1\",\r\n  \"PolicyName\": \"SPENCERS RETAIL LIMITED\",\r\n  \"PolicyNumber\": \"202232812000033005\",\r\n  \"PolicyStartDate\": \"01-Jan-2023\",\r\n  \"PolicyEndDate\": \"31-Dec-2023\",\r\n  \"IntimationType\": \"CLOPD\",\r\n  \"ServiceCode\": \"1063\",\r\n  \"ServiceType\": \"3\",\r\n  \"HospitalId\": \"99434\",\r\n  \"Address1\": \"D-44, West Vinod Nagar, I.P Extn.\",\r\n  \"Address2\": \"Shop No 5, Plot No 266 Narmada Apartment, Sector 23, Next To HDFC ATM, Juinagar\",\r\n  \"Address3\": \"\",\r\n  \"State\": \"DELHI\",\r\n  \"City\":\"DELHI EAST\",\r\n  \"District\": \"EAST DELHI\",\r\n  \"Pincode\": \"110092\",\r\n  \"ClaimAmount\": \"445\",\r\n  \"IntimatorName\": \"MEENA PATIL\",\r\n  \"IntimatorMobileNo\": \"9878658675\",\r\n  \"ProductTypeId\": \"\",\r\n  \"ProductType\": \"\",\r\n  \"TypeofLossID\": \"\",\r\n  \"TypeofLoss\": \"\",\r\n  \"BenefitTypeID\": \"\",\r\n  \"BenefitType\": \"\",\r\n  \"LossDate\": \"\",\r\n  \"LossTime\": \"\",\r\n  \"IncidentDate\": \"\",\r\n  \"LossDescription\": \"\",\r\n  \"Whatsapp_Consent\": \"\",\r\n  \"PatientABHAId\": \"\",\r\n  \"PatientABHAAddress\": \"\",\r\n  \"InsuredABHAId\": \"\",\r\n  \"InsuredABHAAddress\": \"\",\r\n  \"BenefitInsuredOccupation\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/IntimateHealthClaim",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"co",
+						"in"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"IntimateHealthClaim"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IntimateHealthClaim1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic UkdJQ29ycDpWQGxpZEB0ZQ==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ProposerName\": \"MEENA PATIL\",\r\n  \"AdmissionDate\": \"2024-03-06\",\r\n  \"DischargeDate\": \"\",\r\n  \"DoctorName\": \"fsfdgdf\",\r\n  \"DiagnosisDetails\": \"gdfsf\",\r\n  \"ClDetailId\": \"\",\r\n  \"HospitalName\": \"Apex Citi Hospital (A Unit Of Siddharth Health Care Pvt. Ltd.)\",\r\n  \"DocumentList\": [],\r\n  \"MobileNumber\": \"91-9100000008\",\r\n  \"ReceivedMode\": \"Sbot\",\r\n  \"IntimatorRelationship\": \"\",\r\n  \"PatientMobileNo\": \"91-9100000008\",\r\n  \"InsuredName\": \"MEENA PATIL\",\r\n  \"EmployeeID\": \"70310111\",\r\n  \"EmailID\": \"test@sp.com\",\r\n  \"Age\": \"39\",\r\n  \"RelationShip\": \"SPOUSE\",\r\n  \"PatientName\": \"MEENA PATIL\",\r\n  \"UHIDNumber\": \"RMDDG23000001B1\",\r\n  \"PatientUHID\": \"RMDDG23000001B1\",\r\n  \"PolicyName\": \"SPENCERS RETAIL LIMITED\",\r\n  \"PolicyNumber\": \"202232812000033005\",\r\n  \"PolicyStartDate\": \"01-Jan-2023\",\r\n  \"PolicyEndDate\": \"31-Dec-2023\",\r\n  \"IntimationType\": \"CLOPD\",\r\n  \"ServiceCode\": \"1063\",\r\n  \"ServiceType\": \"3\",\r\n  \"HospitalId\": \"99434\",\r\n  \"Address1\": \"D-44, West Vinod Nagar, I.P Extn.\",\r\n  \"Address2\": \"Shop No 5, Plot No 266 Narmada Apartment, Sector 23, Next To HDFC ATM, Juinagar\",\r\n  \"Address3\": \"\",\r\n  \"State\": \"DELHI\",\r\n  \"City\":\"DELHI EAST\",\r\n  \"District\": \"EAST DELHI\",\r\n  \"Pincode\": \"110092\",\r\n  \"ClaimAmount\": \"445\",\r\n  \"IntimatorName\": \"MEENA PATIL\",\r\n  \"IntimatorMobileNo\": \"9878658675\",\r\n  \"ProductTypeId\": \"\",\r\n  \"ProductType\": \"\",\r\n  \"TypeofLossID\": \"\",\r\n  \"TypeofLoss\": \"\",\r\n  \"BenefitTypeID\": \"\",\r\n  \"BenefitType\": \"\",\r\n  \"LossDate\": \"\",\r\n  \"LossTime\": \"\",\r\n  \"IncidentDate\": \"\",\r\n  \"LossDescription\": \"\",\r\n  \"Whatsapp_Consent\": \"\",\r\n  \"PatientABHAId\": \"\",\r\n  \"PatientABHAAddress\": \"\",\r\n  \"InsuredABHAId\": \"\",\r\n  \"InsuredABHAAddress\": \"\",\r\n  \"BenefitInsuredOccupation\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/IntimateHealthClaim",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"co",
+						"in"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"IntimateHealthClaim"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/IntimateHealthClaim",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic UkdJQ29ycDpWQGxpZEB0ZQ=="
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\r\n  \"ProposerName\": \"MEENA PATIL\",\n\r\n  \"AdmissionDate\": \"2024-03-06\",\n\r\n  \"DischargeDate\": \"\",\n\r\n  \"DoctorName\": \"fsfdgdf\",\n\r\n  \"DiagnosisDetails\": \"gdfsf\",\n\r\n  \"ClDetailId\": \"\",\n\r\n  \"HospitalName\": \"Apex Citi Hospital (A Unit Of Siddharth Health Care Pvt. Ltd.)\",\n\r\n  \"DocumentList\": [],\n\r\n  \"MobileNumber\": \"91-9100000008\",\n\r\n  \"ReceivedMode\": \"Sbot\",\n\r\n  \"IntimatorRelationship\": \"\",\n\r\n  \"PatientMobileNo\": \"91-9100000008\",\n\r\n  \"InsuredName\": \"MEENA PATIL\",\n\r\n  \"EmployeeID\": \"70310111\",\n\r\n  \"EmailID\": \"test@sp.com\",\n\r\n  \"Age\": \"39\",\n\r\n  \"RelationShip\": \"SPOUSE\",\n\r\n  \"PatientName\": \"MEENA PATIL\",\n\r\n  \"UHIDNumber\": \"RMDDG23000001B1\",\n\r\n  \"PatientUHID\": \"RMDDG23000001B1\",\n\r\n  \"PolicyName\": \"SPENCERS RETAIL LIMITED\",\n\r\n  \"PolicyNumber\": \"202232812000033005\",\n\r\n  \"PolicyStartDate\": \"01-Jan-2023\",\n\r\n  \"PolicyEndDate\": \"31-Dec-2023\",\n\r\n  \"IntimationType\": \"CLOPD\",\n\r\n  \"ServiceCode\": \"1063\",\n\r\n  \"ServiceType\": \"3\",\n\r\n  \"HospitalId\": \"99434\",\n\r\n  \"Address1\": \"D-44, West Vinod Nagar, I.P Extn.\",\n\r\n  \"Address2\": \"Shop No 5, Plot No 266 Narmada Apartment, Sector 23, Next To HDFC ATM, Juinagar\",\n\r\n  \"Address3\": \"\",\n\r\n  \"State\": \"DELHI\",\n\r\n  \"City\": \"DELHI EAST\",\n\r\n  \"District\": \"EAST DELHI\",\n\r\n  \"Pincode\": \"110092\",\n\r\n  \"ClaimAmount\": \"445\",\n\r\n  \"IntimatorName\": \"MEENA PATIL\",\n\r\n  \"IntimatorMobileNo\": \"9878658675\",\n\r\n  \"ProductTypeId\": \"\",\n\r\n  \"ProductType\": \"\",\n\r\n  \"TypeofLossID\": \"\",\n\r\n  \"TypeofLoss\": \"\",\n\r\n  \"BenefitTypeID\": \"\",\n\r\n  \"BenefitType\": \"\",\n\r\n  \"LossDate\": \"\",\n\r\n  \"LossTime\": \"\",\n\r\n  \"IncidentDate\": \"\",\n\r\n  \"LossDescription\": \"\",\n\r\n  \"Whatsapp_Consent\": \"\",\n\r\n  \"PatientABHAId\": \"\",\n\r\n  \"PatientABHAAddress\": \"\",\n\r\n  \"InsuredABHAId\": \"\",\n\r\n  \"InsuredABHAAddress\": \"\",\n\r\n  \"BenefitInsuredOccupation\": \"\"\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/IntimateHealthClaim",
+					"protocol": "http",
+					"host": [
+						"mservices",
+						"brobotinsurance",
+						"co",
+						"in"
+					],
+					"path": [
+						"ldapauth",
+						"api",
+						"corporateportalapi",
+						"IntimateHealthClaim"
+					]
+				},
+				"description": "Generated from cURL: curl --location --request POST 'http://mservices.brobotinsurance.co.in/ldapauth/api/corporateportalapi/IntimateHealthClaim' \\\n\r\n--header 'Content-Type: application/json' \\\n\r\n--header 'Authorization: Basic UkdJQ29ycDpWQGxpZEB0ZQ==' \\\n\r\n--data-raw '{\n\r\n  \"ProposerName\": \"MEENA PATIL\",\n\r\n  \"AdmissionDate\": \"2024-03-06\",\n\r\n  \"DischargeDate\": \"\",\n\r\n  \"DoctorName\": \"fsfdgdf\",\n\r\n  \"DiagnosisDetails\": \"gdfsf\",\n\r\n  \"ClDetailId\": \"\",\n\r\n  \"HospitalName\": \"Apex Citi Hospital (A Unit Of Siddharth Health Care Pvt. Ltd.)\",\n\r\n  \"DocumentList\": [],\n\r\n  \"MobileNumber\": \"91-9100000008\",\n\r\n  \"ReceivedMode\": \"Sbot\",\n\r\n  \"IntimatorRelationship\": \"\",\n\r\n  \"PatientMobileNo\": \"91-9100000008\",\n\r\n  \"InsuredName\": \"MEENA PATIL\",\n\r\n  \"EmployeeID\": \"70310111\",\n\r\n  \"EmailID\": \"test@sp.com\",\n\r\n  \"Age\": \"39\",\n\r\n  \"RelationShip\": \"SPOUSE\",\n\r\n  \"PatientName\": \"MEENA PATIL\",\n\r\n  \"UHIDNumber\": \"RMDDG23000001B1\",\n\r\n  \"PatientUHID\": \"RMDDG23000001B1\",\n\r\n  \"PolicyName\": \"SPENCERS RETAIL LIMITED\",\n\r\n  \"PolicyNumber\": \"202232812000033005\",\n\r\n  \"PolicyStartDate\": \"01-Jan-2023\",\n\r\n  \"PolicyEndDate\": \"31-Dec-2023\",\n\r\n  \"IntimationType\": \"CLOPD\",\n\r\n  \"ServiceCode\": \"1063\",\n\r\n  \"ServiceType\": \"3\",\n\r\n  \"HospitalId\": \"99434\",\n\r\n  \"Address1\": \"D-44, West Vinod Nagar, I.P Extn.\",\n\r\n  \"Address2\": \"Shop No 5, Plot No 266 Narmada Apartment, Sector 23, Next To HDFC ATM, Juinagar\",\n\r\n  \"Address3\": \"\",\n\r\n  \"State\": \"DELHI\",\n\r\n  \"City\": \"DELHI EAST\",\n\r\n  \"District\": \"EAST DELHI\",\n\r\n  \"Pincode\": \"110092\",\n\r\n  \"ClaimAmount\": \"445\",\n\r\n  \"IntimatorName\": \"MEENA PATIL\",\n\r\n  \"IntimatorMobileNo\": \"9878658675\",\n\r\n  \"ProductTypeId\": \"\",\n\r\n  \"ProductType\": \"\",\n\r\n  \"TypeofLossID\": \"\",\n\r\n  \"TypeofLoss\": \"\",\n\r\n  \"BenefitTypeID\": \"\",\n\r\n  \"BenefitType\": \"\",\n\r\n  \"LossDate\": \"\",\n\r\n  \"LossTime\": \"\",\n\r\n  \"IncidentDate\": \"\",\n\r\n  \"LossDescription\": \"\",\n\r\n  \"Whatsapp_Consent\": \"\",\n\r\n  \"PatientABHAId\": \"\",\n\r\n  \"PatientABHAAddress\": \"\",\n\r\n  \"InsuredABHAId\": \"\",\n\r\n  \"InsuredABHAAddress\": \"\",\n\r\n  \"BenefitInsuredOccupation\": \"\"\n\r\n}'\n "
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
