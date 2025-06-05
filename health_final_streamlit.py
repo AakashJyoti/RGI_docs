@@ -61,6 +61,37 @@ def text_to_speech_func_english(message):
     play_audio()
     time.sleep(calculate_length_of_audio())  # handle time dynamically
 
+def extract_policy_details(raw_xml: str) -> List[Dict[str, Any]]:
+    """Extracts policy details from SOAP response"""
+    global policy_details
+    policy_details.clear()  # Clear existing policy details before extraction
+
+    policy_matches = re.findall(r'&lt;PolicyDetails&gt;(.*?)&lt;/PolicyDetails&gt;', raw_xml)
+
+    for policy in policy_matches:
+        policy_no = re.search(r'&lt;PolicyNo&gt;(.*?)&lt;/PolicyNo&gt;', policy)
+        product_name = re.search(r'&lt;ProductName&gt;(.*?)&lt;/ProductName&gt;', policy)
+        policy_end_date = re.search(r'&lt;PolicyEndDate&gt;(.*?)&lt;/PolicyEndDate&gt;', policy)
+        policy_start_date = re.search(r'&lt;PolicyStartDate&gt;(.*?)&lt;/PolicyStartDate&gt;', policy)
+        name = re.search(r'&lt;Name&gt;(.*?)&lt;/Name&gt;', policy)  
+        mobile_no = re.search(r'&lt;MobileNo&gt;(.*?)&lt;/MobileNo&gt;', policy)  
+        product_code = re.search(r'&lt;ProductCode&gt;(.*?)&lt;/ProductCode&gt;', policy)
+        # product_code = 2824
+  
+
+        policy_details.append({
+            "policy_number": policy_no.group(1) if policy_no else None,
+            "product_name": product_name.group(1) if product_name else None,
+            "policy_end_date": policy_end_date.group(1) if policy_end_date else None,
+            "policy_start_date": policy_start_date.group(1) if policy_start_date else None,
+            "name": name.group(1) if name else None,
+            "mobile_number": mobile_no.group(1) if mobile_no else None,
+            "product_code": product_code.group(1) if product_code else None
+            # "product_code":product_code
+            
+        })
+
+    return policy_details
 
 
 def get_user_input_with_retries(record_duration: int = 5):
