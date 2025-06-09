@@ -32,34 +32,24 @@ Employee ID(For Corporate)
 
 Corporate
 
-110332428120000021
-
-777668, 777669, 777670, 777671.
-  
-corporate : {
-    "Message": "Success",
-    "Output": [
-        {
-            "DOB": "1964-01-01T00:00:00",
-            "EmailId": "",
+{
+            "DOB": "1974-04-04T00:00:00",
+            "EmailId": "test@sp.com",
             "Gender": "MALE",
-            "EmployeeId": "777671",
-            "InsuredName": "SELF 777668",
-            "MobileNo": "",
+            "EmployeeId": "10000003",
+            "InsuredName": "10000003A",
+            "MobileNo": "91-9100000008",
             "PolicyClassification": "Corporate",
-            "PolicyNo": "110332428120000021",
-            "UHID": "RTRI125000004",
-            "PolicyEndDate": "2026-12-31T00:00:00",
-            "PolicyName": "CHETAN MADAN PANCHAL",
-            "PolicyStartDate": "2024-01-27T00:00:00",
+            "PolicyNo": "202232812000002305",
+            "UHID": "RSP0223000100",
+            "PolicyEndDate": "2027-03-31T00:00:00",
+            "PolicyName": "SPENCERS RETAIL LIMITED",
+            "PolicyStartDate": "2023-01-01T00:00:00",
             "PolicyStatus": "ACTIVE",
             "PremiumAmount": 100000.00,
-            "Relationship": "Self",
-            "SumInsured": 1000000.00,
+            "Relationship": "SELF",
+            "SumInsured": 0.00,
             "PlanType": null,
-            "InsuredABHAId": null,
-            "InsuredABHAAddress": null
+            "InsuredABHAId": "91243580030101",
+            "InsuredABHAAddress": "bhushandeshpande28@abdm"
         }
-    ],
-    "Error": null
-}
