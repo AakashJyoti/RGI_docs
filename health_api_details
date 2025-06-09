@@ -53,3 +53,8 @@ Corporate
             "InsuredABHAId": "91243580030101",
             "InsuredABHAAddress": "bhushandeshpande28@abdm"
         }
+
+
+
+Convert the following user input into a numeric amount. The input may contain numbers in words (e.g., "two thousand five hundred") or digits (e.g., "2,500"), and may include currency symbols, commas, or unnecessary words. Extract and return only the numeric value as a float or integer. If the input includes decimal points or cents (e.g., "twenty dollars and fifty cents"), preserve them accurately.
+
