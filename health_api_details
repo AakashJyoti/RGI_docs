@@ -1,0 +1,65 @@
+sigle : {
+    "Message": "Success",
+    "Output": [
+        {
+            "DOB": "1995-02-26T00:00:00",
+            "EmailId": "satish.ponnam@rcap.co.in",
+            "Gender": "MALE",
+            "EmployeeId": null,
+            "InsuredName": "Subrata  Barman",
+            "MobileNo": "9440484120",
+            "PolicyClassification": "Retail",
+            "PolicyNo": "150192329291004571",
+            "UHID": "150192329291004571",
+            "PolicyEndDate": "2028-08-20T00:00:00",
+            "PolicyName": "Misc-Reliance Personal Loan Care",
+            "PolicyStartDate": "2023-08-21T00:00:00",
+            "PolicyStatus": "ACTIVE",
+            "PremiumAmount": 979.0,
+            "Relationship": "Self",
+            "SumInsured": 50000.0,
+            "PlanType": "YBL PLP SECTION A TO D",
+            "InsuredABHAId": null,
+            "InsuredABHAAddress": null
+        }
+    ],
+    "Error": null
+}
+
+
+
+Employee ID(For Corporate)
+
+Corporate
+
+110332428120000021
+
+777668, 777669, 777670, 777671.
+  
+corporate : {
+    "Message": "Success",
+    "Output": [
+        {
+            "DOB": "1964-01-01T00:00:00",
+            "EmailId": "",
+            "Gender": "MALE",
+            "EmployeeId": "777671",
+            "InsuredName": "SELF 777668",
+            "MobileNo": "",
+            "PolicyClassification": "Corporate",
+            "PolicyNo": "110332428120000021",
+            "UHID": "RTRI125000004",
+            "PolicyEndDate": "2026-12-31T00:00:00",
+            "PolicyName": "CHETAN MADAN PANCHAL",
+            "PolicyStartDate": "2024-01-27T00:00:00",
+            "PolicyStatus": "ACTIVE",
+            "PremiumAmount": 100000.00,
+            "Relationship": "Self",
+            "SumInsured": 1000000.00,
+            "PlanType": null,
+            "InsuredABHAId": null,
+            "InsuredABHAAddress": null
+        }
+    ],
+    "Error": null
+}
