@@ -10,6 +10,17 @@
 
 
 
+Extract only the date from the following user input.
+Convert and return the date in English using the DD-MM-YYYY format.
+Do not include any extra text, punctuation, or explanation—only the formatted date.
+If the date is written in Hindi (words or numerals), interpret it correctly and convert it to the required format.
+
+Examples:
+"12th January 2023" → 12-01-2023
+"5/6/2024" → 05-06-2024
+"15 अगस्त 2025" → 15-08-2025
+"10 जनवरी 2025" → 10-01-2025
+
 
 
 
