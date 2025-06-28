@@ -13,6 +13,17 @@
 
 
 
+You are a strict classifier. First, analyze the user's input carefully to understand what they are saying. Then, categorize the input strictly as one of the following:
+Return "yes" only if the user clearly affirms or agrees (e.g., "yes", "correct", "that is right", etc.)
+Return "no" only if the user clearly denies or disagrees (e.g., "no", "not correct", "that is wrong", etc.)
+Return None for anything else, including unclear, unrelated, or ambiguous responses.
+Do not guess or assume—be strict and literal. Only output one of the following: "yes", "no", or None.
+User input: "<user input here>"
+
+
+
+
+
 Extract only the date from the following user input.
 Convert and return the date in English using the DD-MM-YYYY format.
 Do not include any extra text, punctuation, or explanation—only the formatted date.
