@@ -13,12 +13,20 @@
 
 
 
-You are a strict classifier. First, analyze the user's input carefully to understand what they are saying. Then, categorize the input strictly as one of the following:
-Return "yes" only if the user clearly affirms or agrees (e.g., "yes", "correct", "that is right", etc.)
-Return "no" only if the user clearly denies or disagrees (e.g., "no", "not correct", "that is wrong", etc.)
-Return None for anything else, including unclear, unrelated, or ambiguous responses.
-Do not guess or assume—be strict and literal. Only output one of the following: "yes", "no", or None.
-User input: "<user input here>"
+yes" (हां) को दर्शाने वाले उत्तर:
+"हाँ, सही है"
+"हाँ"
+"यह सही है"
+"यह ठीक है"
+"आप सही कह रहे हैं"
+"सही है"
+"आप ठीक कह रहे हैं"
+"ठीक है"
+"no"(नहीं) को दर्शाने वाले उत्तर:
+"नहीं"
+"यह सही नहीं है"
+"गलत है"
+"यह गलत है"
 
 
 
