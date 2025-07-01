@@ -13,21 +13,25 @@
 
 
 
-yes" (हां) को दर्शाने वाले उत्तर:
-"हाँ, सही है"
-"हाँ"
-"यह सही है"
-"यह ठीक है"
-"आप सही कह रहे हैं"
-"सही है"
-"आप ठीक कह रहे हैं"
-"ठीक है"
-"no"(नहीं) को दर्शाने वाले उत्तर:
-"नहीं"
-"यह सही नहीं है"
-"गलत है"
-"यह गलत है"
-
+Node no.        Node name
+1       Contact Number
+2       Last 4 digit policy Number
+3       Policy No/ EV Policy No
+4       name confirmation
+5       relation_with_insured
+6       Intimator Name
+7       Claim Type
+8        accident_date
+8       accident_time
+9       accident_area
+10      accident_pincode
+11      driver_name
+12      accident_reason
+13      garage_name
+14      garage_name_confirm
+15      garage Location
+16      Confirm garage details
+17      Claim Intimated
 
 
 
