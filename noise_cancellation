@@ -65,3 +65,71 @@ garages = [
 
 print(find_similar_garage("Joe Auto Repar", garages, threshold=50))
 # → "Joe's Auto Repair"
+
+
+
+
+
+
+
+
+import re
+from rapidfuzz import process, fuzz
+from typing import List, Optional
+
+def normalize(s: str) -> str:
+    s = s.lower()
+    s = re.sub(r"[^\w\s]", "", s)      # drop punctuation
+    s = re.sub(r"\s+", " ", s).strip() # collapse whitespace
+    return s
+
+def find_similar_garages(
+    user_input: str,
+    garage_list: List[str],
+    threshold: int = 50,
+    limit: int = 3
+) -> List[str]:
+    """
+    Returns up to `limit` garage names whose similarity score ≥ threshold.
+    If none meet the threshold, returns an empty list.
+    """
+    # Precompute normalized names
+    norm_list = [normalize(name) for name in garage_list]
+    norm_input = normalize(user_input)
+    
+    # Get up to `limit` best matches [(match, score, idx), ...]
+    results = process.extract(
+        norm_input,
+        norm_list,
+        scorer=fuzz.WRatio,
+        limit=limit
+    )
+    
+    # Filter by threshold and map back to original names
+    matches = [
+        garage_list[idx]
+        for _, score, idx in results
+        if score >= threshold
+    ]
+    
+    return matches
+
+# Example usage
+garages = [
+    "Joe's Auto Repair",
+    "Precision Garage Services",
+    "Downtown Car Care",
+    "Elite Auto Garage",
+    "Joe's Premium Auto",
+    "Downtown Garage Experts"
+]
+
+user_input = "Joe Auto Repar"
+top3 = find_similar_garages(user_input, garages, threshold=50, limit=3)
+print(top3)
+# e.g. → ["Joe's Auto Repair", "Joe's Premium Auto"]
+
+# If you only want the single best match, just call with limit=1:
+best = find_similar_garages(user_input, garages, threshold=50, limit=1)
+print(best)  
+# e.g. → ["Joe's Auto Repair"]
