@@ -13,25 +13,10 @@
 
 
 
-Node no.        Node name
-1       Contact Number
-2       Last 4 digit policy Number
-3       Policy No/ EV Policy No
-4       name confirmation
-5       relation_with_insured
-6       Intimator Name
-7       Claim Type
-8        accident_date
-8       accident_time
-9       accident_area
-10      accident_pincode
-11      driver_name
-12      accident_reason
-13      garage_name
-14      garage_name_confirm
-15      garage Location
-16      Confirm garage details
-17      Claim Intimated
+For example, say "The accident occurred on 15th May 2023." 
+For example, say "The accident happened at 2:30 in the afternoon."
+उदाहरण के लिए कहें, "दुर्घटना 15 मई 2023 को हुई थी।"
+उदाहरण के लिए कहें, "दुर्घटना दोपहर 2:30 बजे हुई थी।"
 
 
 
