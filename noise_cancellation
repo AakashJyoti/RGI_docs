@@ -28,43 +28,45 @@ with AudioFile('/content/audio1_enhenced.wav', 'w', sr, effected.shape[0]) as f:
 
 import re
 from rapidfuzz import process, fuzz
+from typing import List, Tuple, Any
 
 def normalize(s: str) -> str:
     s = s.lower()
-    s = re.sub(r"[^\w\s]", "", s)      # drop punctuation
-    s = re.sub(r"\s+", " ", s).strip() # collapse whitespace
+    s = re.sub(r"[^\w\s]", "", s)      # remove punctuation
+    s = re.sub(r"\s+", " ", s).strip() # collapse spaces
     return s
 
-def find_similar_garage(
+def find_similar_garages(
     user_input: str,
-    garage_list: list[str],
-    threshold: int = 50
-) -> str | None:
-    # Precompute normalized names
-    norm_list = [normalize(name) for name in garage_list]
+    garage_data: List[Tuple[str, Any]],
+    threshold: int = 50,
+    limit: int = 3
+) -> List[Tuple[str, Any]]:
+    """
+    Returns full garage tuples with name similarity >= threshold.
+    """
+    # Extract names and normalize them
+    garage_names = [garage[0] for garage in garage_data]
+    norm_names = [normalize(name) for name in garage_names]
     norm_input = normalize(user_input)
-    
-    # RapidFuzz’s extractOne returns (match, score, index)
-    match, score, idx = process.extractOne(
+
+    # Match using RapidFuzz
+    results = process.extract(
         norm_input,
-        norm_list,
-        scorer=fuzz.WRatio
+        norm_names,
+        scorer=fuzz.WRatio,
+        limit=limit
     )
-    
-    if score >= threshold:
-        return garage_list[idx]  # return original‑cased name
-    return None
 
-# Example
-garages = [
-    "Joe's Auto Repair",
-    "Precision Garage Services",
-    "Downtown Car Care",
-    "Elite Auto Garage"
-]
+    # Filter and return full tuples
+    matches = [
+        garage_data[idx]
+        for _, score, idx in results
+        if score >= threshold
+    ]
 
-print(find_similar_garage("Joe Auto Repar", garages, threshold=50))
-# → "Joe's Auto Repair"
+    return matches
+
 
 
 
